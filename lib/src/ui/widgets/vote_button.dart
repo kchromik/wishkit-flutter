@@ -19,6 +19,7 @@ class VoteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final primaryColor = WishKit.theme.primaryColor;
+    final votedForegroundColor = Colors.white;
 
     return InkWell(
       onTap: isLoading ? null : onPressed,
@@ -26,9 +27,7 @@ class VoteButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: hasVoted
-              ? primaryColor.withValues(alpha: 0.15)
-              : Colors.grey.withValues(alpha: 0.1),
+          color: hasVoted ? primaryColor : Colors.grey.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: hasVoted ? primaryColor : Colors.grey.withValues(alpha: 0.3),
@@ -43,14 +42,14 @@ class VoteButton extends StatelessWidget {
                 height: 16,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: hasVoted ? primaryColor : Colors.grey,
+                  color: hasVoted ? votedForegroundColor : Colors.grey,
                 ),
               )
             else
               Icon(
                 Icons.arrow_upward,
                 size: 18,
-                color: hasVoted ? primaryColor : Colors.grey,
+                color: hasVoted ? votedForegroundColor : Colors.grey,
               ),
             const SizedBox(height: 2),
             Text(
@@ -58,7 +57,7 @@ class VoteButton extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
-                color: hasVoted ? primaryColor : Colors.grey,
+                color: hasVoted ? votedForegroundColor : Colors.grey,
               ),
             ),
           ],
