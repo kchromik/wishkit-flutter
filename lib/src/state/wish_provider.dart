@@ -100,9 +100,9 @@ class WishProvider extends ChangeNotifier {
 
     _isLoading = false;
 
-    if (result.isSuccess && result.data != null) {
-      _wishes.insert(0, result.data!);
-      notifyListeners();
+    if (result.isSuccess) {
+      // Refresh the list to get the complete wish data from server
+      await fetchList();
       return true;
     } else {
       _error = result.error?.message;
@@ -126,10 +126,9 @@ class WishProvider extends ChangeNotifier {
 
     final result = await _wishApi.vote(VoteWishRequest(wishId: wishId));
 
-    if (result.isSuccess && result.data != null) {
-      _wishes[wishIndex] = result.data!;
-      _wishes.sort((a, b) => b.voteCount.compareTo(a.voteCount));
-      notifyListeners();
+    if (result.isSuccess) {
+      // Refresh the list to get updated vote counts
+      await fetchList();
       return VoteResult.success;
     } else {
       _error = result.error?.message;
@@ -149,10 +148,9 @@ class WishProvider extends ChangeNotifier {
 
     final result = await _wishApi.removeVote(VoteWishRequest(wishId: wishId));
 
-    if (result.isSuccess && result.data != null) {
-      _wishes[wishIndex] = result.data!;
-      _wishes.sort((a, b) => b.voteCount.compareTo(a.voteCount));
-      notifyListeners();
+    if (result.isSuccess) {
+      // Refresh the list to get updated vote counts
+      await fetchList();
       return VoteResult.success;
     } else {
       _error = result.error?.message;

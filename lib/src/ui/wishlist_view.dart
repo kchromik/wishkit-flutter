@@ -24,6 +24,7 @@ class _WishlistViewState extends State<WishlistView> {
   @override
   void initState() {
     super.initState();
+    _selectedState = WishKit.config.defaultState;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<WishProvider>().fetchList();
     });
@@ -215,58 +216,84 @@ class _SegmentedControl extends StatelessWidget {
     required this.localization,
   });
 
+  String _getLabelForState(WishState state) {
+    switch (state) {
+      case WishState.pending:
+        return localization.tabPending;
+      case WishState.inReview:
+        return localization.tabInReview;
+      case WishState.approved:
+        return localization.tabApproved;
+      case WishState.planned:
+        return localization.tabPlanned;
+      case WishState.inProgress:
+        return localization.tabInProgress;
+      case WishState.completed:
+      case WishState.implemented:
+        return localization.tabCompleted;
+      case WishState.rejected:
+        return localization.tabRejected;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final primaryColor = WishKit.theme.primaryColor;
+    final visibleStates = WishKit.config.visibleStates;
+    final showAllTab = WishKit.config.showAllTab;
+
+    // Build list of chips based on configuration
+    final chips = <Widget>[];
+
+    // Show "All" chip if enabled
+    if (showAllTab) {
+      chips.add(_buildChip(
+        label: localization.all,
+        isSelected: selectedState == null,
+        onTap: () => onChanged(null),
+        primaryColor: primaryColor,
+      ));
+    }
+
+    // If visibleStates is configured, only show those states
+    if (visibleStates != null) {
+      for (final state in visibleStates) {
+        if (chips.isNotEmpty) {
+          chips.add(const SizedBox(width: 8));
+        }
+        chips.add(_buildChip(
+          label: _getLabelForState(state),
+          isSelected: selectedState == state,
+          onTap: () => onChanged(state),
+          primaryColor: primaryColor,
+        ));
+      }
+    } else {
+      // Show all states
+      final allStates = [
+        WishState.pending,
+        WishState.inReview,
+        WishState.planned,
+        WishState.inProgress,
+        WishState.completed,
+      ];
+      for (final state in allStates) {
+        if (chips.isNotEmpty) {
+          chips.add(const SizedBox(width: 8));
+        }
+        chips.add(_buildChip(
+          label: _getLabelForState(state),
+          isSelected: selectedState == state,
+          onTap: () => onChanged(state),
+          primaryColor: primaryColor,
+        ));
+      }
+    }
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          _buildChip(
-            label: localization.all,
-            isSelected: selectedState == null,
-            onTap: () => onChanged(null),
-            primaryColor: primaryColor,
-          ),
-          const SizedBox(width: 8),
-          _buildChip(
-            label: localization.tabPending,
-            isSelected: selectedState == WishState.pending,
-            onTap: () => onChanged(WishState.pending),
-            primaryColor: primaryColor,
-          ),
-          const SizedBox(width: 8),
-          _buildChip(
-            label: localization.tabInReview,
-            isSelected: selectedState == WishState.inReview,
-            onTap: () => onChanged(WishState.inReview),
-            primaryColor: primaryColor,
-          ),
-          const SizedBox(width: 8),
-          _buildChip(
-            label: localization.tabPlanned,
-            isSelected: selectedState == WishState.planned,
-            onTap: () => onChanged(WishState.planned),
-            primaryColor: primaryColor,
-          ),
-          const SizedBox(width: 8),
-          _buildChip(
-            label: localization.tabInProgress,
-            isSelected: selectedState == WishState.inProgress,
-            onTap: () => onChanged(WishState.inProgress),
-            primaryColor: primaryColor,
-          ),
-          const SizedBox(width: 8),
-          _buildChip(
-            label: localization.tabCompleted,
-            isSelected: selectedState == WishState.completed,
-            onTap: () => onChanged(WishState.completed),
-            primaryColor: primaryColor,
-          ),
-        ],
-      ),
+      child: Row(children: chips),
     );
   }
 

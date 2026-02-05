@@ -1,4 +1,5 @@
 import 'localization.dart';
+import '../models/wish_state.dart';
 
 /// Display mode for optional UI elements.
 enum Display {
@@ -55,6 +56,16 @@ class WishKitConfiguration {
   /// Button configurations.
   ButtonsConfiguration buttons;
 
+  /// Which states to show in the segmented control.
+  /// If null, all states are shown.
+  List<WishState>? visibleStates;
+
+  /// Whether to show the "All" tab in the segmented control.
+  bool showAllTab;
+
+  /// Default selected state when opening the wishlist.
+  WishState? defaultState;
+
   WishKitConfiguration({
     this.statusBadge = Display.hide,
     WishKitLocalization? localization,
@@ -65,6 +76,9 @@ class WishKitConfiguration {
     this.commentSection = Display.show,
     this.allowUndoVote = false,
     ButtonsConfiguration? buttons,
+    this.visibleStates,
+    this.showAllTab = true,
+    this.defaultState,
   })  : localization = localization ?? WishKitLocalization(),
         buttons = buttons ?? ButtonsConfiguration();
 
@@ -79,6 +93,9 @@ class WishKitConfiguration {
     Display? commentSection,
     bool? allowUndoVote,
     ButtonsConfiguration? buttons,
+    List<WishState>? visibleStates,
+    bool? showAllTab,
+    WishState? defaultState,
   }) {
     return WishKitConfiguration(
       statusBadge: statusBadge ?? this.statusBadge,
@@ -90,6 +107,9 @@ class WishKitConfiguration {
       commentSection: commentSection ?? this.commentSection,
       allowUndoVote: allowUndoVote ?? this.allowUndoVote,
       buttons: buttons ?? this.buttons,
+      visibleStates: visibleStates ?? this.visibleStates,
+      showAllTab: showAllTab ?? this.showAllTab,
+      defaultState: defaultState ?? this.defaultState,
     );
   }
 }

@@ -12,7 +12,8 @@ class WishApi {
     return _client.get<List<Wish>>(
       '/wish/list',
       (json) {
-        final list = json as List<dynamic>;
+        final map = json as Map<String, dynamic>;
+        final list = map['list'] as List<dynamic>;
         return list
             .map((e) => Wish.fromJson(e as Map<String, dynamic>))
             .toList();
@@ -21,29 +22,26 @@ class WishApi {
   }
 
   /// Creates a new wish.
-  Future<ApiResult<Wish>> create(CreateWishRequest request) async {
-    return _client.post<Wish>(
+  Future<ApiResult<void>> create(CreateWishRequest request) async {
+    return _client.postVoid(
       '/wish/create',
       request.toJson(),
-      (json) => Wish.fromJson(json as Map<String, dynamic>),
     );
   }
 
   /// Votes for a wish.
-  Future<ApiResult<Wish>> vote(VoteWishRequest request) async {
-    return _client.post<Wish>(
+  Future<ApiResult<void>> vote(VoteWishRequest request) async {
+    return _client.postVoid(
       '/wish/vote',
       request.toJson(),
-      (json) => Wish.fromJson(json as Map<String, dynamic>),
     );
   }
 
   /// Removes a vote from a wish.
-  Future<ApiResult<Wish>> removeVote(VoteWishRequest request) async {
-    return _client.post<Wish>(
+  Future<ApiResult<void>> removeVote(VoteWishRequest request) async {
+    return _client.postVoid(
       '/wish/unvote',
       request.toJson(),
-      (json) => Wish.fromJson(json as Map<String, dynamic>),
     );
   }
 }

@@ -21,6 +21,7 @@ class WishKitLocalization {
   String tabInProgress;
   String tabCompleted;
   String tabImplemented;
+  String tabRejected;
 
   // Buttons
   String save;
@@ -85,6 +86,7 @@ class WishKitLocalization {
     this.tabInProgress = 'In Progress',
     this.tabCompleted = 'Completed',
     this.tabImplemented = 'Implemented',
+    this.tabRejected = 'Rejected',
     this.save = 'Save',
     this.done = 'Done',
     this.confirm = 'Confirm',
@@ -139,6 +141,7 @@ class WishKitLocalization {
     String? tabInProgress,
     String? tabCompleted,
     String? tabImplemented,
+    String? tabRejected,
     String? save,
     String? done,
     String? confirm,
@@ -191,6 +194,7 @@ class WishKitLocalization {
       tabInProgress: tabInProgress ?? this.tabInProgress,
       tabCompleted: tabCompleted ?? this.tabCompleted,
       tabImplemented: tabImplemented ?? this.tabImplemented,
+      tabRejected: tabRejected ?? this.tabRejected,
       save: save ?? this.save,
       done: done ?? this.done,
       confirm: confirm ?? this.confirm,

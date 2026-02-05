@@ -124,6 +124,7 @@ class CreateWishRequest {
     final map = <String, dynamic>{
       'title': title,
       'description': description,
+      'state': 'pending',
     };
     if (email != null && email!.isNotEmpty) {
       map['email'] = email;
