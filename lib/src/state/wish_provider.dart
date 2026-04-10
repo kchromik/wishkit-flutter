@@ -39,15 +39,17 @@ class WishProvider extends ChangeNotifier {
           w.userUUID.toLowerCase() == _currentUserUUID?.toLowerCase())
       .toList();
 
-  /// Wishes filtered by in-review state (includes approved, like iOS).
-  List<Wish> get inReviewList => _wishes
-      .where((w) =>
-          w.state == WishState.inReview || w.state == WishState.approved)
-      .toList();
+  /// Wishes filtered by in-review state.
+  List<Wish> get inReviewList =>
+      _wishes.where((w) => w.state == WishState.inReview).toList();
 
-  /// Wishes filtered by planned state.
-  List<Wish> get plannedList =>
-      _wishes.where((w) => w.state == WishState.planned).toList();
+  /// Wishes filtered by planned state (includes approved — the admin
+  /// "approves" a wish which the API returns as "approved", meaning
+  /// it is planned for implementation).
+  List<Wish> get plannedList => _wishes
+      .where((w) =>
+          w.state == WishState.planned || w.state == WishState.approved)
+      .toList();
 
   /// Wishes filtered by in-progress state.
   List<Wish> get inProgressList =>
@@ -73,6 +75,7 @@ class WishProvider extends ChangeNotifier {
     }
     if (state == WishState.pending) return pendingList;
     if (state == WishState.inReview) return inReviewList;
+    if (state == WishState.planned) return plannedList;
     if (state == WishState.completed) return completedList;
     return _wishes.where((w) => w.state == state).toList();
   }
