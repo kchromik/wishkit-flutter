@@ -289,7 +289,7 @@ class _CommentItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Text(
-                  comment.isAdmin ? 'Admin' : 'User',
+                  comment.isAdmin ? localization.admin : localization.user,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -317,19 +317,20 @@ class _CommentItem extends StatelessWidget {
   String _formatDate(DateTime date) {
     final now = DateTime.now();
     final diff = now.difference(date);
+    final l = WishKit.config.localization;
 
     if (diff.inDays > 365) {
-      return '${(diff.inDays / 365).floor()}y ago';
+      return l.formatTimeAgo(l.timeYearsAgo, (diff.inDays / 365).floor());
     } else if (diff.inDays > 30) {
-      return '${(diff.inDays / 30).floor()}mo ago';
+      return l.formatTimeAgo(l.timeMonthsAgo, (diff.inDays / 30).floor());
     } else if (diff.inDays > 0) {
-      return '${diff.inDays}d ago';
+      return l.formatTimeAgo(l.timeDaysAgo, diff.inDays);
     } else if (diff.inHours > 0) {
-      return '${diff.inHours}h ago';
+      return l.formatTimeAgo(l.timeHoursAgo, diff.inHours);
     } else if (diff.inMinutes > 0) {
-      return '${diff.inMinutes}m ago';
+      return l.formatTimeAgo(l.timeMinutesAgo, diff.inMinutes);
     } else {
-      return 'Just now';
+      return l.timeJustNow;
     }
   }
 }

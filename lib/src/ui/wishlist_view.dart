@@ -272,9 +272,7 @@ class _SegmentedControl extends StatelessWidget {
       // Show all states
       final allStates = [
         WishState.pending,
-        WishState.inReview,
         WishState.planned,
-        WishState.inProgress,
         WishState.completed,
       ];
       for (final state in allStates) {

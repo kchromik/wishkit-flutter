@@ -77,8 +77,8 @@ class WishKitConfiguration {
     this.allowUndoVote = false,
     ButtonsConfiguration? buttons,
     this.visibleStates,
-    this.showAllTab = true,
-    this.defaultState,
+    this.showAllTab = false,
+    this.defaultState = WishState.planned,
   })  : localization = localization ?? WishKitLocalization(),
         buttons = buttons ?? ButtonsConfiguration();
 

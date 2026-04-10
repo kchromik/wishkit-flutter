@@ -41,6 +41,12 @@ class WishKitLocalization {
   String emailPlaceholder;
   String submit;
 
+  // Validation
+  String titleRequired;
+  String descriptionRequired;
+  String emailRequiredValidation;
+  String emailInvalid;
+
   // Detail view
   String voteButton;
   String removeVoteButton;
@@ -48,6 +54,18 @@ class WishKitLocalization {
   String addComment;
   String commentPlaceholder;
   String noComments;
+
+  // Comment labels
+  String admin;
+  String user;
+
+  // Time formatting (use %d as placeholder for the number)
+  String timeYearsAgo;
+  String timeMonthsAgo;
+  String timeDaysAgo;
+  String timeHoursAgo;
+  String timeMinutesAgo;
+  String timeJustNow;
 
   // List view
   String noWishes;
@@ -101,12 +119,24 @@ class WishKitLocalization {
     this.email = 'Email',
     this.emailPlaceholder = 'your@email.com',
     this.submit = 'Submit',
+    this.titleRequired = 'Title is required',
+    this.descriptionRequired = 'Description is required',
+    this.emailRequiredValidation = 'Email is required',
+    this.emailInvalid = 'Please enter a valid email',
     this.voteButton = 'Vote',
     this.removeVoteButton = 'Remove Vote',
     this.comments = 'Comments',
     this.addComment = 'Add Comment',
     this.commentPlaceholder = 'Write a comment...',
     this.noComments = 'No comments yet',
+    this.admin = 'Admin',
+    this.user = 'User',
+    this.timeYearsAgo = '%dy ago',
+    this.timeMonthsAgo = '%dmo ago',
+    this.timeDaysAgo = '%dd ago',
+    this.timeHoursAgo = '%dh ago',
+    this.timeMinutesAgo = '%dm ago',
+    this.timeJustNow = 'Just now',
     this.noWishes = 'No feature requests yet',
     this.loading = 'Loading...',
     this.errorLoading = 'Failed to load',
@@ -120,6 +150,81 @@ class WishKitLocalization {
     this.unsavedChangesTitle = 'Unsaved Changes',
     this.unsavedChangesMessage = 'You have unsaved changes. Do you want to discard them?',
   });
+
+  /// English localization (same as default).
+  factory WishKitLocalization.en() => WishKitLocalization();
+
+  /// German localization.
+  factory WishKitLocalization.de() => WishKitLocalization(
+        requested: 'Angefragt',
+        pending: 'Ausstehend',
+        inReview: 'In Prüfung',
+        planned: 'Geplant',
+        inProgress: 'In Bearbeitung',
+        completed: 'Abgeschlossen',
+        approved: 'Genehmigt',
+        implemented: 'Umgesetzt',
+        rejected: 'Abgelehnt',
+        all: 'Alle',
+        tabRequested: 'Angefragt',
+        tabPending: 'Ausstehend',
+        tabApproved: 'Genehmigt',
+        tabInReview: 'In Prüfung',
+        tabPlanned: 'Geplant',
+        tabInProgress: 'In Bearbeitung',
+        tabCompleted: 'Abgeschlossen',
+        tabImplemented: 'Umgesetzt',
+        tabRejected: 'Abgelehnt',
+        save: 'Speichern',
+        done: 'Fertig',
+        confirm: 'Bestätigen',
+        cancel: 'Abbrechen',
+        discard: 'Verwerfen',
+        close: 'Schließen',
+        featureRequest: 'Feature-Wunsch',
+        title: 'Titel',
+        titlePlaceholder: 'Kurzer und beschreibender Titel',
+        description: 'Beschreibung',
+        descriptionPlaceholder: 'Beschreibe das Feature, das du dir wünschst...',
+        email: 'E-Mail',
+        emailPlaceholder: 'deine@email.de',
+        submit: 'Absenden',
+        titleRequired: 'Titel ist erforderlich',
+        descriptionRequired: 'Beschreibung ist erforderlich',
+        emailRequiredValidation: 'E-Mail ist erforderlich',
+        emailInvalid: 'Bitte gib eine gültige E-Mail-Adresse ein',
+        voteButton: 'Abstimmen',
+        removeVoteButton: 'Stimme zurücknehmen',
+        comments: 'Kommentare',
+        addComment: 'Kommentar hinzufügen',
+        commentPlaceholder: 'Schreibe einen Kommentar...',
+        noComments: 'Noch keine Kommentare',
+        admin: 'Admin',
+        user: 'Nutzer',
+        timeYearsAgo: 'vor %d J.',
+        timeMonthsAgo: 'vor %d Mon.',
+        timeDaysAgo: 'vor %d T.',
+        timeHoursAgo: 'vor %d Std.',
+        timeMinutesAgo: 'vor %d Min.',
+        timeJustNow: 'Gerade eben',
+        noWishes: 'Noch keine Feature-Wünsche',
+        loading: 'Laden...',
+        errorLoading: 'Fehler beim Laden',
+        retry: 'Erneut versuchen',
+        successTitle: 'Erfolg',
+        errorTitle: 'Fehler',
+        wishCreatedMessage: 'Dein Feature-Wunsch wurde eingereicht!',
+        alreadyVotedMessage: 'Du hast bereits für dieses Feature abgestimmt.',
+        voteErrorMessage: 'Abstimmung fehlgeschlagen. Bitte versuche es erneut.',
+        commentErrorMessage: 'Kommentar konnte nicht gesendet werden. Bitte versuche es erneut.',
+        unsavedChangesTitle: 'Ungespeicherte Änderungen',
+        unsavedChangesMessage: 'Du hast ungespeicherte Änderungen. Möchtest du sie verwerfen?',
+      );
+
+  /// Helper to format a time-ago string with a number.
+  String formatTimeAgo(String template, int value) {
+    return template.replaceFirst('%d', value.toString());
+  }
 
   /// Creates a copy with modified values.
   WishKitLocalization copyWith({
@@ -156,12 +261,24 @@ class WishKitLocalization {
     String? email,
     String? emailPlaceholder,
     String? submit,
+    String? titleRequired,
+    String? descriptionRequired,
+    String? emailRequiredValidation,
+    String? emailInvalid,
     String? voteButton,
     String? removeVoteButton,
     String? comments,
     String? addComment,
     String? commentPlaceholder,
     String? noComments,
+    String? admin,
+    String? user,
+    String? timeYearsAgo,
+    String? timeMonthsAgo,
+    String? timeDaysAgo,
+    String? timeHoursAgo,
+    String? timeMinutesAgo,
+    String? timeJustNow,
     String? noWishes,
     String? loading,
     String? errorLoading,
@@ -209,12 +326,24 @@ class WishKitLocalization {
       email: email ?? this.email,
       emailPlaceholder: emailPlaceholder ?? this.emailPlaceholder,
       submit: submit ?? this.submit,
+      titleRequired: titleRequired ?? this.titleRequired,
+      descriptionRequired: descriptionRequired ?? this.descriptionRequired,
+      emailRequiredValidation: emailRequiredValidation ?? this.emailRequiredValidation,
+      emailInvalid: emailInvalid ?? this.emailInvalid,
       voteButton: voteButton ?? this.voteButton,
       removeVoteButton: removeVoteButton ?? this.removeVoteButton,
       comments: comments ?? this.comments,
       addComment: addComment ?? this.addComment,
       commentPlaceholder: commentPlaceholder ?? this.commentPlaceholder,
       noComments: noComments ?? this.noComments,
+      admin: admin ?? this.admin,
+      user: user ?? this.user,
+      timeYearsAgo: timeYearsAgo ?? this.timeYearsAgo,
+      timeMonthsAgo: timeMonthsAgo ?? this.timeMonthsAgo,
+      timeDaysAgo: timeDaysAgo ?? this.timeDaysAgo,
+      timeHoursAgo: timeHoursAgo ?? this.timeHoursAgo,
+      timeMinutesAgo: timeMinutesAgo ?? this.timeMinutesAgo,
+      timeJustNow: timeJustNow ?? this.timeJustNow,
       noWishes: noWishes ?? this.noWishes,
       loading: loading ?? this.loading,
       errorLoading: errorLoading ?? this.errorLoading,

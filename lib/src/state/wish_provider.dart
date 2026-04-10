@@ -32,13 +32,17 @@ class WishProvider extends ChangeNotifier {
   /// All wishes.
   List<Wish> get all => _wishes;
 
-  /// Wishes filtered by pending state.
-  List<Wish> get pendingList =>
-      _wishes.where((w) => w.state == WishState.pending).toList();
+  /// Wishes filtered by pending state (only current user's own wishes, like iOS).
+  List<Wish> get pendingList => _wishes
+      .where((w) =>
+          w.state == WishState.pending && w.userUUID == _currentUserUUID)
+      .toList();
 
-  /// Wishes filtered by in-review state.
-  List<Wish> get inReviewList =>
-      _wishes.where((w) => w.state == WishState.inReview).toList();
+  /// Wishes filtered by in-review state (includes approved, like iOS).
+  List<Wish> get inReviewList => _wishes
+      .where((w) =>
+          w.state == WishState.inReview || w.state == WishState.approved)
+      .toList();
 
   /// Wishes filtered by planned state.
   List<Wish> get plannedList =>
@@ -56,7 +60,18 @@ class WishProvider extends ChangeNotifier {
 
   /// Gets filtered wishes by state.
   List<Wish> getByState(WishState? state) {
-    if (state == null) return _wishes;
+    if (state == null) {
+      // "All" list: concatenation of all filtered lists (like iOS).
+      return [
+        ...pendingList,
+        ...inReviewList,
+        ...plannedList,
+        ...inProgressList,
+        ...completedList,
+      ]..sort((a, b) => b.voteCount.compareTo(a.voteCount));
+    }
+    if (state == WishState.pending) return pendingList;
+    if (state == WishState.inReview) return inReviewList;
     if (state == WishState.completed) return completedList;
     return _wishes.where((w) => w.state == state).toList();
   }

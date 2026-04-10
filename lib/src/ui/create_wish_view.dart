@@ -170,7 +170,7 @@ class _CreateWishViewState extends State<CreateWishView> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Title is required';
+                    return localization.titleRequired;
                   }
                   return null;
                 },
@@ -195,7 +195,7 @@ class _CreateWishViewState extends State<CreateWishView> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Description is required';
+                    return localization.descriptionRequired;
                   }
                   return null;
                 },
@@ -219,12 +219,12 @@ class _CreateWishViewState extends State<CreateWishView> {
                   validator: (value) {
                     if (config.emailField == EmailField.required) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'Email is required';
+                        return localization.emailRequiredValidation;
                       }
                     }
                     if (value != null && value.isNotEmpty) {
                       if (!_isValidEmail(value)) {
-                        return 'Please enter a valid email';
+                        return localization.emailInvalid;
                       }
                     }
                     return null;
