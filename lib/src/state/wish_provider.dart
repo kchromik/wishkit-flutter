@@ -35,7 +35,8 @@ class WishProvider extends ChangeNotifier {
   /// Wishes filtered by pending state (only current user's own wishes, like iOS).
   List<Wish> get pendingList => _wishes
       .where((w) =>
-          w.state == WishState.pending && w.userUUID == _currentUserUUID)
+          w.state == WishState.pending &&
+          w.userUUID.toLowerCase() == _currentUserUUID?.toLowerCase())
       .toList();
 
   /// Wishes filtered by in-review state (includes approved, like iOS).
@@ -97,6 +98,22 @@ class WishProvider extends ChangeNotifier {
       _wishes = result.data ?? [];
       // Sort by vote count descending
       _wishes.sort((a, b) => b.voteCount.compareTo(a.voteCount));
+
+      // Debug: log state distribution to help diagnose filtering issues.
+      assert(() {
+        final stateCounts = <String, int>{};
+        for (final w in _wishes) {
+          final key = w.state.name;
+          stateCounts[key] = (stateCounts[key] ?? 0) + 1;
+        }
+        debugPrint('[WishKit] Fetched ${_wishes.length} wishes. '
+            'States: $stateCounts. '
+            'Current UUID: $_currentUserUUID');
+        if (_wishes.isNotEmpty) {
+          debugPrint('[WishKit] Sample wish UUID: ${_wishes.first.userUUID}');
+        }
+        return true;
+      }());
     } else {
       _error = result.error?.message;
     }

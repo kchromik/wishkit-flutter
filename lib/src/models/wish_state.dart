@@ -11,7 +11,7 @@ enum WishState {
 
   /// Creates a WishState from a string value.
   static WishState fromString(String value) {
-    switch (value.toLowerCase()) {
+    switch (value.trim().toLowerCase()) {
       case 'pending':
         return WishState.pending;
       case 'inreview':

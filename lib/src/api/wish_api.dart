@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import '../models/wish.dart';
 import 'api_client.dart';
 
@@ -14,6 +15,16 @@ class WishApi {
       (json) {
         final map = json as Map<String, dynamic>;
         final list = map['list'] as List<dynamic>;
+
+        // Debug: log raw state values from API response.
+        assert(() {
+          final rawStates = list
+              .map((e) => (e as Map<String, dynamic>)['state'])
+              .toList();
+          debugPrint('[WishKit] Raw API states: $rawStates');
+          return true;
+        }());
+
         return list
             .map((e) => Wish.fromJson(e as Map<String, dynamic>))
             .toList();

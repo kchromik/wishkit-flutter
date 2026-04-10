@@ -40,7 +40,8 @@ class Wish {
 
   /// Check if a user has voted for this wish.
   bool hasUserVoted(String userUUID) {
-    return votingUsers.any((user) => user.uuid == userUUID);
+    return votingUsers
+        .any((user) => user.uuid.toLowerCase() == userUUID.toLowerCase());
   }
 
   factory Wish.fromJson(Map<String, dynamic> json) {
