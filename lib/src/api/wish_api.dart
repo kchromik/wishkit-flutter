@@ -14,10 +14,14 @@ class WishApi {
       '/wish/list',
       (json) {
         final map = json as Map<String, dynamic>;
-        final list = map['list'] as List<dynamic>;
+        final list = map['list'] as List<dynamic>? ?? [];
 
-        // Debug: log raw state values from API response.
+        // Debug: log raw API response keys and state values.
         assert(() {
+          if (list.isNotEmpty) {
+            final firstWish = list.first as Map<String, dynamic>;
+            debugPrint('[WishKit] API response keys: ${firstWish.keys.toList()}');
+          }
           final rawStates = list
               .map((e) => (e as Map<String, dynamic>)['state'])
               .toList();

@@ -20,11 +20,15 @@ class Comment {
   });
 
   factory Comment.fromJson(Map<String, dynamic> json) {
+    // Support both camelCase and snake_case keys from the server.
+    final createdAtRaw = json['createdAt'] ?? json['created_at'];
+    final isAdminRaw = json['isAdmin'] ?? json['is_admin'];
+
     return Comment(
-      id: json['id'] as String,
-      description: json['description'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      isAdmin: json['isAdmin'] as bool? ?? false,
+      id: json['id'].toString(),
+      description: (json['description'] ?? '').toString(),
+      createdAt: DateTime.parse(createdAtRaw.toString()),
+      isAdmin: isAdminRaw == true,
     );
   }
 

@@ -45,17 +45,23 @@ class Wish {
   }
 
   factory Wish.fromJson(Map<String, dynamic> json) {
+    // Support both camelCase and snake_case keys from the server.
+    final votingUsersRaw =
+        (json['votingUsers'] ?? json['voting_users']) as List<dynamic>?;
+    final commentsRaw =
+        (json['commentList'] ?? json['comment_list']) as List<dynamic>?;
+
     return Wish(
-      id: json['id'] as String,
-      userUUID: json['userUUID'] as String,
-      title: json['title'] as String,
-      description: json['description'] as String? ?? '',
-      state: WishState.fromString(json['state'] as String? ?? 'pending'),
-      votingUsers: (json['votingUsers'] as List<dynamic>?)
+      id: json['id'].toString(),
+      userUUID: (json['userUUID'] ?? json['user_uuid'] ?? '').toString(),
+      title: (json['title'] ?? '').toString(),
+      description: (json['description'] ?? '').toString(),
+      state: WishState.fromString(json['state']?.toString() ?? 'pending'),
+      votingUsers: votingUsersRaw
               ?.map((e) => WishKitUser.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      comments: (json['commentList'] as List<dynamic>?)
+      comments: commentsRaw
               ?.map((e) => Comment.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
