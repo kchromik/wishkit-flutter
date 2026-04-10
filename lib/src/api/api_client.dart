@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../manager/uuid_manager.dart';
 
@@ -60,7 +61,7 @@ class ApiClient {
       'x-wishkit-uuid': uuid,
       'x-wishkit-sdk-kind': _sdkKind,
       'x-wishkit-sdk-version': _sdkVersion,
-      if (appName != null) 'x-wishkit-sdk-app-name': appName!,
+      'x-wishkit-sdk-app-name': appName ?? 'none',
     };
   }
 
@@ -76,6 +77,13 @@ class ApiClient {
         headers: headers,
       );
 
+      // Debug: log raw response for diagnostics.
+      assert(() {
+        debugPrint('[WishKit] $endpoint → ${response.statusCode}');
+        debugPrint('[WishKit] Response body: ${response.body}');
+        return true;
+      }());
+
       if (response.statusCode >= 200 && response.statusCode < 300) {
         final json = jsonDecode(response.body);
         return ApiResult.success(fromJson(json));
@@ -86,6 +94,10 @@ class ApiClient {
         ));
       }
     } catch (e) {
+      assert(() {
+        debugPrint('[WishKit] $endpoint error: $e');
+        return true;
+      }());
       return ApiResult.failure(ApiError(message: e.toString()));
     }
   }
