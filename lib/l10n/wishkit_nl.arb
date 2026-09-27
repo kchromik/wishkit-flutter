@@ -1,0 +1,243 @@
+{
+  "@@locale": "nl",
+  "@requested": {
+    "description": "Informal address (je) by design."
+  },
+  "requested": "Aangevraagd",
+  "@pending": {
+    "description": "Informal address (je) by design."
+  },
+  "pending": "In afwachting",
+  "@approved": {
+    "description": "Informal address (je) by design."
+  },
+  "approved": "Goedgekeurd",
+  "@implemented": {
+    "description": "Informal address (je) by design."
+  },
+  "implemented": "Voltooid",
+  "@inReview": {
+    "description": "Informal address (je) by design."
+  },
+  "inReview": "In beoordeling",
+  "@planned": {
+    "description": "Informal address (je) by design."
+  },
+  "planned": "Gepland",
+  "@inProgress": {
+    "description": "Informal address (je) by design."
+  },
+  "inProgress": "In behandeling",
+  "@completed": {
+    "description": "Informal address (je) by design."
+  },
+  "completed": "Voltooid",
+  "@open": {
+    "description": "Informal address (je) by design."
+  },
+  "open": "Open",
+  "@closed": {
+    "description": "Informal address (je) by design."
+  },
+  "closed": "Gesloten",
+  "@wishlist": {
+    "description": "Informal address (je) by design."
+  },
+  "wishlist": "Functieverzoeken",
+  "@save": {
+    "description": "Informal address (je) by design."
+  },
+  "save": "Versturen",
+  "@title": {
+    "description": "Informal address (je) by design."
+  },
+  "title": "Titel",
+  "@description": {
+    "description": "Informal address (je) by design."
+  },
+  "description": "Omschrijving",
+  "@upvote": {
+    "description": "Informal address (je) by design."
+  },
+  "upvote": "Stemmen",
+  "@info": {
+    "description": "Informal address (je) by design."
+  },
+  "info": "Info",
+  "@youCanOnlyVoteOnce": {
+    "description": "Informal address (je) by design."
+  },
+  "youCanOnlyVoteOnce": "Je kunt maar één keer stemmen.",
+  "@youCanNotVoteForACompletedWish": {
+    "description": "Informal address (je) by design."
+  },
+  "youCanNotVoteForACompletedWish": "Je kunt niet stemmen op een functie die al voltooid is.",
+  "@youCanNotVoteForYourOwnWish": {
+    "description": "Informal address (je) by design."
+  },
+  "youCanNotVoteForYourOwnWish": "Je kunt niet op je eigen functieverzoek stemmen.",
+  "@poweredBy": {
+    "description": "Informal address (je) by design."
+  },
+  "poweredBy": "Powered by",
+  "@successfullyCreated": {
+    "description": "Informal address (je) by design."
+  },
+  "successfullyCreated": "Succesvol verstuurd",
+  "@done": {
+    "description": "Informal address (je) by design."
+  },
+  "done": "Gereed",
+  "@detail": {
+    "description": "Informal address (je) by design."
+  },
+  "detail": "Details",
+  "@featureWishlist": {
+    "description": "Informal address (je) by design."
+  },
+  "featureWishlist": "Functieverzoeken",
+  "@confirm": {
+    "description": "Informal address (je) by design."
+  },
+  "confirm": "Bevestig",
+  "@cancel": {
+    "description": "Informal address (je) by design."
+  },
+  "cancel": "Annuleer",
+  "@ok": {
+    "description": "Informal address (je) by design."
+  },
+  "ok": "Ok",
+  "@titleOfWish": {
+    "description": "Informal address (je) by design."
+  },
+  "titleOfWish": "Titel van de functie..",
+  "@titleDescriptionCannotBeEmpty": {
+    "description": "Informal address (je) by design."
+  },
+  "titleDescriptionCannotBeEmpty": "Titel en omschrijving mogen niet leeg zijn.",
+  "@votes": {
+    "description": "Informal address (je) by design."
+  },
+  "votes": "Stemmen",
+  "@close": {
+    "description": "Informal address (je) by design."
+  },
+  "close": "Sluit",
+  "@createWish": {
+    "description": "Informal address (je) by design."
+  },
+  "createWish": "Nieuw functieverzoek",
+  "@optional": {
+    "description": "Informal address (je) by design."
+  },
+  "optional": "optioneel",
+  "@required": {
+    "description": "Informal address (je) by design."
+  },
+  "required": "verplicht",
+  "@emailRequiredText": {
+    "description": "Informal address (je) by design."
+  },
+  "emailRequiredText": "Vul je e-mailadres in.",
+  "@emailFormatWrongText": {
+    "description": "Informal address (je) by design."
+  },
+  "emailFormatWrongText": "Ongeldig e-mailformaat.",
+  "@comments": {
+    "description": "Informal address (je) by design."
+  },
+  "comments": "Reacties",
+  "@writeAComment": {
+    "description": "Informal address (je) by design."
+  },
+  "writeAComment": "Schrijf een reactie..",
+  "@submitComment": {
+    "description": "Informal address (je) by design."
+  },
+  "submitComment": "Versturen",
+  "@admin": {
+    "description": "Informal address (je) by design."
+  },
+  "admin": "Beheerder",
+  "@user": {
+    "description": "Informal address (je) by design."
+  },
+  "user": "Gebruiker",
+  "@noFeatureRequests": {
+    "description": "Informal address (je) by design."
+  },
+  "noFeatureRequests": "Nog geen functieverzoeken ✨",
+  "@emailOptional": {
+    "description": "Informal address (je) by design."
+  },
+  "emailOptional": "E-mail (optioneel)",
+  "@emailRequired": {
+    "description": "Informal address (je) by design."
+  },
+  "emailRequired": "E-mail (verplicht)",
+  "@discardEnteredInformation": {
+    "description": "Informal address (je) by design."
+  },
+  "discardEnteredInformation": "Wijzigingen verwijderen?",
+  "@addButtonInNavigationBar": {
+    "description": "Informal address (je) by design."
+  },
+  "addButtonInNavigationBar": "Aanmaken",
+  "@refresh": {
+    "description": "Informal address (je) by design."
+  },
+  "refresh": "Vernieuwen",
+  "@refreshing": {
+    "description": "Informal address (je) by design."
+  },
+  "refreshing": "Vernieuwen..",
+  "@somethingWentWrong": {
+    "description": "Informal address (je) by design."
+  },
+  "somethingWentWrong": "Er is iets misgegaan. Probeer het later opnieuw.",
+  "@all": {
+    "description": "Informal address (je) by design."
+  },
+  "all": "Alle",
+  "@notSupported": {
+    "description": "Informal address (je) by design."
+  },
+  "notSupported": "Niet ondersteund",
+  "@filter": {
+    "description": "Informal address (je) by design."
+  },
+  "filter": "Filter",
+  "@activateToSwitchFilter": {
+    "description": "Informal address (je) by design."
+  },
+  "activateToSwitchFilter": "Activeer om het filter te wisselen.",
+  "@seeTranslation": {
+    "description": "Informal address (je) by design."
+  },
+  "seeTranslation": "Vertaling bekijken",
+  "@seeOriginal": {
+    "description": "Informal address (je) by design."
+  },
+  "seeOriginal": "Origineel bekijken",
+  "@chat": {
+    "description": "Informal address (je) by design."
+  },
+  "chat": "Chat met ons",
+  "@writeAMessage": {
+    "description": "Informal address (je) by design."
+  },
+  "writeAMessage": "Schrijf een bericht…",
+  "@send": {
+    "description": "Informal address (je) by design."
+  },
+  "send": "Versturen",
+  "@chatEmptyState": {
+    "description": "Informal address (je) by design."
+  },
+  "chatEmptyState": "Vragen of feedback? Stuur ons een bericht.",
+  "@failedToSendTapToRetry": {
+    "description": "Informal address (je) by design."
+  },
+  "failedToSendTapToRetry": "Versturen mislukt. Tik om opnieuw te proberen."
+}

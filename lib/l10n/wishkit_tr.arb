@@ -1,0 +1,243 @@
+{
+  "@@locale": "tr",
+  "@requested": {
+    "description": "Informal address (sen) by design."
+  },
+  "requested": "Talep Edildi",
+  "@pending": {
+    "description": "Informal address (sen) by design."
+  },
+  "pending": "Beklemede",
+  "@approved": {
+    "description": "Informal address (sen) by design."
+  },
+  "approved": "Onaylandı",
+  "@implemented": {
+    "description": "Informal address (sen) by design."
+  },
+  "implemented": "Tamamlandı",
+  "@inReview": {
+    "description": "Informal address (sen) by design."
+  },
+  "inReview": "İncelemede",
+  "@planned": {
+    "description": "Informal address (sen) by design."
+  },
+  "planned": "Planlandı",
+  "@inProgress": {
+    "description": "Informal address (sen) by design."
+  },
+  "inProgress": "Devam Ediyor",
+  "@completed": {
+    "description": "Informal address (sen) by design."
+  },
+  "completed": "Tamamlandı",
+  "@open": {
+    "description": "Informal address (sen) by design."
+  },
+  "open": "Açık",
+  "@closed": {
+    "description": "Informal address (sen) by design."
+  },
+  "closed": "Kapalı",
+  "@wishlist": {
+    "description": "Informal address (sen) by design."
+  },
+  "wishlist": "Özellik İstekleri",
+  "@save": {
+    "description": "Informal address (sen) by design."
+  },
+  "save": "Gönder",
+  "@title": {
+    "description": "Informal address (sen) by design."
+  },
+  "title": "Başlık",
+  "@description": {
+    "description": "Informal address (sen) by design."
+  },
+  "description": "Açıklama",
+  "@upvote": {
+    "description": "Informal address (sen) by design."
+  },
+  "upvote": "Oy Ver",
+  "@info": {
+    "description": "Informal address (sen) by design."
+  },
+  "info": "Bilgi",
+  "@youCanOnlyVoteOnce": {
+    "description": "Informal address (sen) by design."
+  },
+  "youCanOnlyVoteOnce": "Yalnızca bir kez oy verebilirsin.",
+  "@youCanNotVoteForACompletedWish": {
+    "description": "Informal address (sen) by design."
+  },
+  "youCanNotVoteForACompletedWish": "Tamamlanmış bir özelliğe oy veremezsin.",
+  "@youCanNotVoteForYourOwnWish": {
+    "description": "Informal address (sen) by design."
+  },
+  "youCanNotVoteForYourOwnWish": "Kendi özellik isteğine oy veremezsin.",
+  "@poweredBy": {
+    "description": "Informal address (sen) by design."
+  },
+  "poweredBy": "Powered by",
+  "@successfullyCreated": {
+    "description": "Informal address (sen) by design."
+  },
+  "successfullyCreated": "Başarıyla gönderildi",
+  "@done": {
+    "description": "Informal address (sen) by design."
+  },
+  "done": "Bitti",
+  "@detail": {
+    "description": "Informal address (sen) by design."
+  },
+  "detail": "Detay",
+  "@featureWishlist": {
+    "description": "Informal address (sen) by design."
+  },
+  "featureWishlist": "Özellik İstekleri",
+  "@confirm": {
+    "description": "Informal address (sen) by design."
+  },
+  "confirm": "Onayla",
+  "@cancel": {
+    "description": "Informal address (sen) by design."
+  },
+  "cancel": "İptal",
+  "@ok": {
+    "description": "Informal address (sen) by design."
+  },
+  "ok": "Tamam",
+  "@titleOfWish": {
+    "description": "Informal address (sen) by design."
+  },
+  "titleOfWish": "Özelliğin başlığı..",
+  "@titleDescriptionCannotBeEmpty": {
+    "description": "Informal address (sen) by design."
+  },
+  "titleDescriptionCannotBeEmpty": "Başlık ve açıklama boş olamaz.",
+  "@votes": {
+    "description": "Informal address (sen) by design."
+  },
+  "votes": "Oylar",
+  "@close": {
+    "description": "Informal address (sen) by design."
+  },
+  "close": "Kapat",
+  "@createWish": {
+    "description": "Informal address (sen) by design."
+  },
+  "createWish": "Yeni Özellik İsteği",
+  "@optional": {
+    "description": "Informal address (sen) by design."
+  },
+  "optional": "isteğe bağlı",
+  "@required": {
+    "description": "Informal address (sen) by design."
+  },
+  "required": "zorunlu",
+  "@emailRequiredText": {
+    "description": "Informal address (sen) by design."
+  },
+  "emailRequiredText": "Lütfen e-posta adresini gir.",
+  "@emailFormatWrongText": {
+    "description": "Informal address (sen) by design."
+  },
+  "emailFormatWrongText": "E-posta biçimi hatalı.",
+  "@comments": {
+    "description": "Informal address (sen) by design."
+  },
+  "comments": "Yorumlar",
+  "@writeAComment": {
+    "description": "Informal address (sen) by design."
+  },
+  "writeAComment": "Bir yorum yaz..",
+  "@submitComment": {
+    "description": "Informal address (sen) by design."
+  },
+  "submitComment": "Gönder",
+  "@admin": {
+    "description": "Informal address (sen) by design."
+  },
+  "admin": "Yönetici",
+  "@user": {
+    "description": "Informal address (sen) by design."
+  },
+  "user": "Kullanıcı",
+  "@noFeatureRequests": {
+    "description": "Informal address (sen) by design."
+  },
+  "noFeatureRequests": "Henüz özellik isteği yok ✨",
+  "@emailOptional": {
+    "description": "Informal address (sen) by design."
+  },
+  "emailOptional": "E-posta (isteğe bağlı)",
+  "@emailRequired": {
+    "description": "Informal address (sen) by design."
+  },
+  "emailRequired": "E-posta (zorunlu)",
+  "@discardEnteredInformation": {
+    "description": "Informal address (sen) by design."
+  },
+  "discardEnteredInformation": "Değişiklikler silinsin mi?",
+  "@addButtonInNavigationBar": {
+    "description": "Informal address (sen) by design."
+  },
+  "addButtonInNavigationBar": "Oluştur",
+  "@refresh": {
+    "description": "Informal address (sen) by design."
+  },
+  "refresh": "Yenile",
+  "@refreshing": {
+    "description": "Informal address (sen) by design."
+  },
+  "refreshing": "Yenileniyor..",
+  "@somethingWentWrong": {
+    "description": "Informal address (sen) by design."
+  },
+  "somethingWentWrong": "Bir şeyler ters gitti. Daha sonra tekrar dene.",
+  "@all": {
+    "description": "Informal address (sen) by design."
+  },
+  "all": "Tümü",
+  "@notSupported": {
+    "description": "Informal address (sen) by design."
+  },
+  "notSupported": "Desteklenmiyor",
+  "@filter": {
+    "description": "Informal address (sen) by design."
+  },
+  "filter": "Filtre",
+  "@activateToSwitchFilter": {
+    "description": "Informal address (sen) by design."
+  },
+  "activateToSwitchFilter": "Filtreyi değiştirmek için etkinleştir.",
+  "@seeTranslation": {
+    "description": "Informal address (sen) by design."
+  },
+  "seeTranslation": "Çeviriyi gör",
+  "@seeOriginal": {
+    "description": "Informal address (sen) by design."
+  },
+  "seeOriginal": "Orijinali gör",
+  "@chat": {
+    "description": "Informal address (sen) by design."
+  },
+  "chat": "Bize yazın",
+  "@writeAMessage": {
+    "description": "Informal address (sen) by design."
+  },
+  "writeAMessage": "Bir mesaj yazın…",
+  "@send": {
+    "description": "Informal address (sen) by design."
+  },
+  "send": "Gönder",
+  "@chatEmptyState": {
+    "description": "Informal address (sen) by design."
+  },
+  "chatEmptyState": "Soru veya geri bildiriminiz mi var? Bize mesaj gönderin.",
+  "@failedToSendTapToRetry": {
+    "description": "Informal address (sen) by design."
+  },
+  "failedToSendTapToRetry": "Gönderilemedi. Yeniden denemek için dokunun."
+}

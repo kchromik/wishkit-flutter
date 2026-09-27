@@ -1,0 +1,243 @@
+{
+  "@@locale": "ja",
+  "@requested": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "requested": "リクエスト済み",
+  "@pending": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "pending": "承認待ち",
+  "@approved": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "approved": "承認済み",
+  "@implemented": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "implemented": "完了",
+  "@inReview": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "inReview": "レビュー中",
+  "@planned": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "planned": "計画中",
+  "@inProgress": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "inProgress": "対応中",
+  "@completed": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "completed": "完了",
+  "@open": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "open": "オープン",
+  "@closed": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "closed": "クローズ",
+  "@wishlist": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "wishlist": "機能リクエスト",
+  "@save": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "save": "送信",
+  "@title": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "title": "タイトル",
+  "@description": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "description": "説明",
+  "@upvote": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "upvote": "投票",
+  "@info": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "info": "情報",
+  "@youCanOnlyVoteOnce": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "youCanOnlyVoteOnce": "投票は1回のみ可能です。",
+  "@youCanNotVoteForACompletedWish": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "youCanNotVoteForACompletedWish": "すでに完了した機能には投票できません。",
+  "@youCanNotVoteForYourOwnWish": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "youCanNotVoteForYourOwnWish": "自分の機能リクエストには投票できません。",
+  "@poweredBy": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "poweredBy": "Powered by",
+  "@successfullyCreated": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "successfullyCreated": "送信が完了しました",
+  "@done": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "done": "完了",
+  "@detail": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "detail": "詳細",
+  "@featureWishlist": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "featureWishlist": "機能リクエスト",
+  "@confirm": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "confirm": "確認",
+  "@cancel": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "cancel": "キャンセル",
+  "@ok": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "ok": "OK",
+  "@titleOfWish": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "titleOfWish": "機能のタイトル..",
+  "@titleDescriptionCannotBeEmpty": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "titleDescriptionCannotBeEmpty": "タイトルと説明は必須です。",
+  "@votes": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "votes": "票",
+  "@close": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "close": "閉じる",
+  "@createWish": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "createWish": "新しい機能リクエスト",
+  "@optional": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "optional": "任意",
+  "@required": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "required": "必須",
+  "@emailRequiredText": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "emailRequiredText": "メールアドレスを入力してください。",
+  "@emailFormatWrongText": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "emailFormatWrongText": "メールアドレスの形式が正しくありません。",
+  "@comments": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "comments": "コメント",
+  "@writeAComment": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "writeAComment": "コメントを書く..",
+  "@submitComment": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "submitComment": "送信",
+  "@admin": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "admin": "管理者",
+  "@user": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "user": "ユーザー",
+  "@noFeatureRequests": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "noFeatureRequests": "まだ機能リクエストはありません ✨",
+  "@emailOptional": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "emailOptional": "メール（任意）",
+  "@emailRequired": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "emailRequired": "メール（必須）",
+  "@discardEnteredInformation": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "discardEnteredInformation": "変更を破棄しますか？",
+  "@addButtonInNavigationBar": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "addButtonInNavigationBar": "作成",
+  "@refresh": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "refresh": "更新",
+  "@refreshing": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "refreshing": "更新中..",
+  "@somethingWentWrong": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "somethingWentWrong": "問題が発生しました。しばらくしてからもう一度お試しください。",
+  "@all": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "all": "すべて",
+  "@notSupported": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "notSupported": "非対応",
+  "@filter": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "filter": "フィルタ",
+  "@activateToSwitchFilter": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "activateToSwitchFilter": "選択するとフィルタを切り替えます。",
+  "@seeTranslation": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "seeTranslation": "翻訳を表示",
+  "@seeOriginal": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "seeOriginal": "原文を表示",
+  "@chat": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "chat": "チャットで相談",
+  "@writeAMessage": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "writeAMessage": "メッセージを入力…",
+  "@send": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "send": "送信",
+  "@chatEmptyState": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "chatEmptyState": "質問やフィードバックはありますか？メッセージをお送りください。",
+  "@failedToSendTapToRetry": {
+    "description": "Standard polite forms (です/ます) by design."
+  },
+  "failedToSendTapToRetry": "送信に失敗しました。タップして再試行。"
+}

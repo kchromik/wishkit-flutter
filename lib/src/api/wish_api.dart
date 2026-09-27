@@ -1,6 +1,37 @@
-import 'package:flutter/foundation.dart';
 import '../models/wish.dart';
 import 'api_client.dart';
+
+/// The `/wish/list` response.
+///
+/// The server sends more than just the list: [shouldShowWatermark] is the
+/// plan-level branding switch, and the Flutter SDK used to drop it on the
+/// floor. That is a compliance bug for any paid plan, so it is parsed and
+/// threaded through to the board.
+class ListWishResponse {
+  final List<Wish> list;
+
+  /// Whether the "Powered by WishKit" watermark must be rendered.
+  ///
+  /// `null` when the server did not send the field at all, which is how an
+  /// older backend behaves. Treated as `false` — showing a watermark the
+  /// server did not ask for is a smaller problem than hiding one it did, and
+  /// the server is authoritative the moment it starts sending the field.
+  final bool? shouldShowWatermark;
+
+  const ListWishResponse({required this.list, this.shouldShowWatermark});
+
+  factory ListWishResponse.fromJson(Map<String, dynamic> json) {
+    final raw = json['list'] as List<dynamic>? ?? const [];
+    final watermark = json['shouldShowWatermark'] ?? json['should_show_watermark'];
+    return ListWishResponse(
+      list: raw
+          .whereType<Map<String, dynamic>>()
+          .map(Wish.fromJson)
+          .toList(growable: false),
+      shouldShowWatermark: watermark is bool ? watermark : null,
+    );
+  }
+}
 
 /// API methods for wishes.
 class WishApi {
@@ -8,55 +39,30 @@ class WishApi {
 
   WishApi(this._client);
 
-  /// Fetches all wishes.
-  Future<ApiResult<List<Wish>>> fetchList() async {
-    return _client.get<List<Wish>>(
+  /// Fetches all wishes, plus the plan-level branding switch.
+  Future<ApiResult<ListWishResponse>> fetchList() {
+    return _client.get<ListWishResponse>(
       '/wish/list',
-      (json) {
-        final map = json as Map<String, dynamic>;
-        final list = map['list'] as List<dynamic>? ?? [];
-
-        // Debug: log raw API response keys and state values.
-        assert(() {
-          if (list.isNotEmpty) {
-            final firstWish = list.first as Map<String, dynamic>;
-            debugPrint('[WishKit] API response keys: ${firstWish.keys.toList()}');
-          }
-          final rawStates = list
-              .map((e) => (e as Map<String, dynamic>)['state'])
-              .toList();
-          debugPrint('[WishKit] Raw API states: $rawStates');
-          return true;
-        }());
-
-        return list
-            .map((e) => Wish.fromJson(e as Map<String, dynamic>))
-            .toList();
-      },
+      (json) => ListWishResponse.fromJson(json as Map<String, dynamic>),
     );
   }
 
   /// Creates a new wish.
-  Future<ApiResult<void>> create(CreateWishRequest request) async {
-    return _client.postVoid(
-      '/wish/create',
-      request.toJson(),
-    );
+  Future<ApiResult<void>> create(CreateWishRequest request) {
+    return _client.postVoid('/wish/create', request.toJson());
   }
 
   /// Votes for a wish.
-  Future<ApiResult<void>> vote(VoteWishRequest request) async {
-    return _client.postVoid(
-      '/wish/vote',
-      request.toJson(),
-    );
+  Future<ApiResult<void>> vote(VoteWishRequest request) {
+    return _client.postVoid('/wish/vote', request.toJson());
   }
 
   /// Removes a vote from a wish.
-  Future<ApiResult<void>> removeVote(VoteWishRequest request) async {
-    return _client.postVoid(
-      '/wish/unvote',
-      request.toJson(),
-    );
+  ///
+  /// A dedicated `/wish/unvote` endpoint, which the iOS SDK does not have — it
+  /// reuses `/wish/vote` with a `-1` delta. Both work against the same backend;
+  /// this one is a single round-trip and cannot drift a count by two.
+  Future<ApiResult<void>> removeVote(VoteWishRequest request) {
+    return _client.postVoid('/wish/unvote', request.toJson());
   }
 }

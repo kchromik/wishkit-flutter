@@ -1,0 +1,7 @@
+arb-dir: lib/l10n
+template-arb-file: wishkit_en.arb
+output-localization-file: wishkit_localizations.dart
+output-class: WishKitLocalizations
+output-dir: lib/l10n/generated
+nullable-getter: false
+untranslated-messages-file: build/l10n_untranslated.json

@@ -1,0 +1,243 @@
+{
+  "@@locale": "ko",
+  "@requested": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "requested": "요청됨",
+  "@pending": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "pending": "대기 중",
+  "@approved": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "approved": "승인됨",
+  "@implemented": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "implemented": "완료됨",
+  "@inReview": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "inReview": "검토 중",
+  "@planned": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "planned": "계획됨",
+  "@inProgress": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "inProgress": "진행 중",
+  "@completed": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "completed": "완료됨",
+  "@open": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "open": "열림",
+  "@closed": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "closed": "닫힘",
+  "@wishlist": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "wishlist": "기능 요청",
+  "@save": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "save": "제출",
+  "@title": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "title": "제목",
+  "@description": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "description": "설명",
+  "@upvote": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "upvote": "투표",
+  "@info": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "info": "안내",
+  "@youCanOnlyVoteOnce": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "youCanOnlyVoteOnce": "투표는 한 번만 할 수 있어요.",
+  "@youCanNotVoteForACompletedWish": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "youCanNotVoteForACompletedWish": "이미 완료된 기능에는 투표할 수 없어요.",
+  "@youCanNotVoteForYourOwnWish": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "youCanNotVoteForYourOwnWish": "자신의 기능 요청에는 투표할 수 없어요.",
+  "@poweredBy": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "poweredBy": "Powered by",
+  "@successfullyCreated": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "successfullyCreated": "성공적으로 제출되었어요",
+  "@done": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "done": "완료",
+  "@detail": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "detail": "상세 보기",
+  "@featureWishlist": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "featureWishlist": "기능 요청",
+  "@confirm": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "confirm": "확인",
+  "@cancel": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "cancel": "취소",
+  "@ok": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "ok": "확인",
+  "@titleOfWish": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "titleOfWish": "기능 제목..",
+  "@titleDescriptionCannotBeEmpty": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "titleDescriptionCannotBeEmpty": "제목과 설명은 비워둘 수 없어요.",
+  "@votes": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "votes": "투표수",
+  "@close": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "close": "닫기",
+  "@createWish": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "createWish": "새 기능 요청",
+  "@optional": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "optional": "선택",
+  "@required": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "required": "필수",
+  "@emailRequiredText": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "emailRequiredText": "이메일 주소를 입력해 주세요.",
+  "@emailFormatWrongText": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "emailFormatWrongText": "이메일 형식이 올바르지 않아요.",
+  "@comments": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "comments": "댓글",
+  "@writeAComment": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "writeAComment": "댓글을 입력하세요..",
+  "@submitComment": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "submitComment": "보내기",
+  "@admin": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "admin": "관리자",
+  "@user": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "user": "사용자",
+  "@noFeatureRequests": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "noFeatureRequests": "아직 기능 요청이 없어요 ✨",
+  "@emailOptional": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "emailOptional": "이메일 (선택)",
+  "@emailRequired": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "emailRequired": "이메일 (필수)",
+  "@discardEnteredInformation": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "discardEnteredInformation": "변경사항을 취소할까요?",
+  "@addButtonInNavigationBar": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "addButtonInNavigationBar": "만들기",
+  "@refresh": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "refresh": "새로고침",
+  "@refreshing": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "refreshing": "새로고침 중..",
+  "@somethingWentWrong": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "somethingWentWrong": "문제가 발생했어요. 나중에 다시 시도해 주세요.",
+  "@all": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "all": "전체",
+  "@notSupported": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "notSupported": "지원되지 않음",
+  "@filter": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "filter": "필터",
+  "@activateToSwitchFilter": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "activateToSwitchFilter": "활성화하면 필터가 전환돼요.",
+  "@seeTranslation": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "seeTranslation": "번역 보기",
+  "@seeOriginal": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "seeOriginal": "원문 보기",
+  "@chat": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "chat": "채팅하기",
+  "@writeAMessage": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "writeAMessage": "메시지를 입력하세요…",
+  "@send": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "send": "보내기",
+  "@chatEmptyState": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "chatEmptyState": "질문이나 피드백이 있나요? 메시지를 보내주세요.",
+  "@failedToSendTapToRetry": {
+    "description": "Polite informal style (해요체) by design."
+  },
+  "failedToSendTapToRetry": "전송에 실패했습니다. 탭하여 다시 시도하세요."
+}

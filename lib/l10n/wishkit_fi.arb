@@ -1,0 +1,243 @@
+{
+  "@@locale": "fi",
+  "@requested": {
+    "description": "Informal address (sinä) by design."
+  },
+  "requested": "Pyydetty",
+  "@pending": {
+    "description": "Informal address (sinä) by design."
+  },
+  "pending": "Odottaa",
+  "@approved": {
+    "description": "Informal address (sinä) by design."
+  },
+  "approved": "Hyväksytty",
+  "@implemented": {
+    "description": "Informal address (sinä) by design."
+  },
+  "implemented": "Valmis",
+  "@inReview": {
+    "description": "Informal address (sinä) by design."
+  },
+  "inReview": "Tarkistettavana",
+  "@planned": {
+    "description": "Informal address (sinä) by design."
+  },
+  "planned": "Suunniteltu",
+  "@inProgress": {
+    "description": "Informal address (sinä) by design."
+  },
+  "inProgress": "Työn alla",
+  "@completed": {
+    "description": "Informal address (sinä) by design."
+  },
+  "completed": "Valmis",
+  "@open": {
+    "description": "Informal address (sinä) by design."
+  },
+  "open": "Avoimet",
+  "@closed": {
+    "description": "Informal address (sinä) by design."
+  },
+  "closed": "Suljetut",
+  "@wishlist": {
+    "description": "Informal address (sinä) by design."
+  },
+  "wishlist": "Ominaisuustoiveet",
+  "@save": {
+    "description": "Informal address (sinä) by design."
+  },
+  "save": "Lähetä",
+  "@title": {
+    "description": "Informal address (sinä) by design."
+  },
+  "title": "Otsikko",
+  "@description": {
+    "description": "Informal address (sinä) by design."
+  },
+  "description": "Kuvaus",
+  "@upvote": {
+    "description": "Informal address (sinä) by design."
+  },
+  "upvote": "Äänestä",
+  "@info": {
+    "description": "Informal address (sinä) by design."
+  },
+  "info": "Tietoa",
+  "@youCanOnlyVoteOnce": {
+    "description": "Informal address (sinä) by design."
+  },
+  "youCanOnlyVoteOnce": "Voit äänestää vain kerran.",
+  "@youCanNotVoteForACompletedWish": {
+    "description": "Informal address (sinä) by design."
+  },
+  "youCanNotVoteForACompletedWish": "Et voi äänestää ominaisuutta, joka on jo valmis.",
+  "@youCanNotVoteForYourOwnWish": {
+    "description": "Informal address (sinä) by design."
+  },
+  "youCanNotVoteForYourOwnWish": "Et voi äänestää omaa toivettasi.",
+  "@poweredBy": {
+    "description": "Informal address (sinä) by design."
+  },
+  "poweredBy": "Powered by",
+  "@successfullyCreated": {
+    "description": "Informal address (sinä) by design."
+  },
+  "successfullyCreated": "Lähetetty onnistuneesti",
+  "@done": {
+    "description": "Informal address (sinä) by design."
+  },
+  "done": "Valmis",
+  "@detail": {
+    "description": "Informal address (sinä) by design."
+  },
+  "detail": "Tiedot",
+  "@featureWishlist": {
+    "description": "Informal address (sinä) by design."
+  },
+  "featureWishlist": "Ominaisuustoiveet",
+  "@confirm": {
+    "description": "Informal address (sinä) by design."
+  },
+  "confirm": "Vahvista",
+  "@cancel": {
+    "description": "Informal address (sinä) by design."
+  },
+  "cancel": "Peruuta",
+  "@ok": {
+    "description": "Informal address (sinä) by design."
+  },
+  "ok": "Ok",
+  "@titleOfWish": {
+    "description": "Informal address (sinä) by design."
+  },
+  "titleOfWish": "Ominaisuuden otsikko..",
+  "@titleDescriptionCannotBeEmpty": {
+    "description": "Informal address (sinä) by design."
+  },
+  "titleDescriptionCannotBeEmpty": "Otsikko ja kuvaus eivät voi olla tyhjiä.",
+  "@votes": {
+    "description": "Informal address (sinä) by design."
+  },
+  "votes": "Äänet",
+  "@close": {
+    "description": "Informal address (sinä) by design."
+  },
+  "close": "Sulje",
+  "@createWish": {
+    "description": "Informal address (sinä) by design."
+  },
+  "createWish": "Uusi ominaisuustoive",
+  "@optional": {
+    "description": "Informal address (sinä) by design."
+  },
+  "optional": "valinnainen",
+  "@required": {
+    "description": "Informal address (sinä) by design."
+  },
+  "required": "pakollinen",
+  "@emailRequiredText": {
+    "description": "Informal address (sinä) by design."
+  },
+  "emailRequiredText": "Syötä sähköpostiosoitteesi.",
+  "@emailFormatWrongText": {
+    "description": "Informal address (sinä) by design."
+  },
+  "emailFormatWrongText": "Virheellinen sähköpostimuoto.",
+  "@comments": {
+    "description": "Informal address (sinä) by design."
+  },
+  "comments": "Kommentit",
+  "@writeAComment": {
+    "description": "Informal address (sinä) by design."
+  },
+  "writeAComment": "Kirjoita kommentti..",
+  "@submitComment": {
+    "description": "Informal address (sinä) by design."
+  },
+  "submitComment": "Lähetä",
+  "@admin": {
+    "description": "Informal address (sinä) by design."
+  },
+  "admin": "Ylläpitäjä",
+  "@user": {
+    "description": "Informal address (sinä) by design."
+  },
+  "user": "Käyttäjä",
+  "@noFeatureRequests": {
+    "description": "Informal address (sinä) by design."
+  },
+  "noFeatureRequests": "Ei vielä ominaisuustoiveita ✨",
+  "@emailOptional": {
+    "description": "Informal address (sinä) by design."
+  },
+  "emailOptional": "Sähköposti (valinnainen)",
+  "@emailRequired": {
+    "description": "Informal address (sinä) by design."
+  },
+  "emailRequired": "Sähköposti (pakollinen)",
+  "@discardEnteredInformation": {
+    "description": "Informal address (sinä) by design."
+  },
+  "discardEnteredInformation": "Hylätäänkö muutokset?",
+  "@addButtonInNavigationBar": {
+    "description": "Informal address (sinä) by design."
+  },
+  "addButtonInNavigationBar": "Luo",
+  "@refresh": {
+    "description": "Informal address (sinä) by design."
+  },
+  "refresh": "Päivitä",
+  "@refreshing": {
+    "description": "Informal address (sinä) by design."
+  },
+  "refreshing": "Päivitetään..",
+  "@somethingWentWrong": {
+    "description": "Informal address (sinä) by design."
+  },
+  "somethingWentWrong": "Jokin meni pieleen. Yritä myöhemmin uudelleen.",
+  "@all": {
+    "description": "Informal address (sinä) by design."
+  },
+  "all": "Kaikki",
+  "@notSupported": {
+    "description": "Informal address (sinä) by design."
+  },
+  "notSupported": "Ei tuettu",
+  "@filter": {
+    "description": "Informal address (sinä) by design."
+  },
+  "filter": "Suodatin",
+  "@activateToSwitchFilter": {
+    "description": "Informal address (sinä) by design."
+  },
+  "activateToSwitchFilter": "Aktivoi vaihtaaksesi suodatinta.",
+  "@seeTranslation": {
+    "description": "Informal address (sinä) by design."
+  },
+  "seeTranslation": "Näytä käännös",
+  "@seeOriginal": {
+    "description": "Informal address (sinä) by design."
+  },
+  "seeOriginal": "Näytä alkuperäinen",
+  "@chat": {
+    "description": "Informal address (sinä) by design."
+  },
+  "chat": "Juttele kanssamme",
+  "@writeAMessage": {
+    "description": "Informal address (sinä) by design."
+  },
+  "writeAMessage": "Kirjoita viesti…",
+  "@send": {
+    "description": "Informal address (sinä) by design."
+  },
+  "send": "Lähetä",
+  "@chatEmptyState": {
+    "description": "Informal address (sinä) by design."
+  },
+  "chatEmptyState": "Kysymyksiä tai palautetta? Lähetä meille viesti.",
+  "@failedToSendTapToRetry": {
+    "description": "Informal address (sinä) by design."
+  },
+  "failedToSendTapToRetry": "Lähetys epäonnistui. Yritä uudelleen napauttamalla."
+}

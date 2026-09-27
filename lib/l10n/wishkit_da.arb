@@ -1,0 +1,243 @@
+{
+  "@@locale": "da",
+  "@requested": {
+    "description": "Informal address (du) by design."
+  },
+  "requested": "Anmodet",
+  "@pending": {
+    "description": "Informal address (du) by design."
+  },
+  "pending": "Afventer",
+  "@approved": {
+    "description": "Informal address (du) by design."
+  },
+  "approved": "Godkendt",
+  "@implemented": {
+    "description": "Informal address (du) by design."
+  },
+  "implemented": "Fuldført",
+  "@inReview": {
+    "description": "Informal address (du) by design."
+  },
+  "inReview": "Under gennemgang",
+  "@planned": {
+    "description": "Informal address (du) by design."
+  },
+  "planned": "Planlagt",
+  "@inProgress": {
+    "description": "Informal address (du) by design."
+  },
+  "inProgress": "I gang",
+  "@completed": {
+    "description": "Informal address (du) by design."
+  },
+  "completed": "Fuldført",
+  "@open": {
+    "description": "Informal address (du) by design."
+  },
+  "open": "Åbne",
+  "@closed": {
+    "description": "Informal address (du) by design."
+  },
+  "closed": "Lukkede",
+  "@wishlist": {
+    "description": "Informal address (du) by design."
+  },
+  "wishlist": "Funktionsønsker",
+  "@save": {
+    "description": "Informal address (du) by design."
+  },
+  "save": "Send",
+  "@title": {
+    "description": "Informal address (du) by design."
+  },
+  "title": "Titel",
+  "@description": {
+    "description": "Informal address (du) by design."
+  },
+  "description": "Beskrivelse",
+  "@upvote": {
+    "description": "Informal address (du) by design."
+  },
+  "upvote": "Stem",
+  "@info": {
+    "description": "Informal address (du) by design."
+  },
+  "info": "Info",
+  "@youCanOnlyVoteOnce": {
+    "description": "Informal address (du) by design."
+  },
+  "youCanOnlyVoteOnce": "Du kan kun stemme én gang.",
+  "@youCanNotVoteForACompletedWish": {
+    "description": "Informal address (du) by design."
+  },
+  "youCanNotVoteForACompletedWish": "Du kan ikke stemme på en funktion, der allerede er fuldført.",
+  "@youCanNotVoteForYourOwnWish": {
+    "description": "Informal address (du) by design."
+  },
+  "youCanNotVoteForYourOwnWish": "Du kan ikke stemme på dit eget funktionsønske.",
+  "@poweredBy": {
+    "description": "Informal address (du) by design."
+  },
+  "poweredBy": "Powered by",
+  "@successfullyCreated": {
+    "description": "Informal address (du) by design."
+  },
+  "successfullyCreated": "Sendt",
+  "@done": {
+    "description": "Informal address (du) by design."
+  },
+  "done": "Færdig",
+  "@detail": {
+    "description": "Informal address (du) by design."
+  },
+  "detail": "Detaljer",
+  "@featureWishlist": {
+    "description": "Informal address (du) by design."
+  },
+  "featureWishlist": "Funktionsønsker",
+  "@confirm": {
+    "description": "Informal address (du) by design."
+  },
+  "confirm": "Bekræft",
+  "@cancel": {
+    "description": "Informal address (du) by design."
+  },
+  "cancel": "Annuller",
+  "@ok": {
+    "description": "Informal address (du) by design."
+  },
+  "ok": "Ok",
+  "@titleOfWish": {
+    "description": "Informal address (du) by design."
+  },
+  "titleOfWish": "Funktionens titel..",
+  "@titleDescriptionCannotBeEmpty": {
+    "description": "Informal address (du) by design."
+  },
+  "titleDescriptionCannotBeEmpty": "Titel og beskrivelse må ikke være tomme.",
+  "@votes": {
+    "description": "Informal address (du) by design."
+  },
+  "votes": "Stemmer",
+  "@close": {
+    "description": "Informal address (du) by design."
+  },
+  "close": "Luk",
+  "@createWish": {
+    "description": "Informal address (du) by design."
+  },
+  "createWish": "Nyt funktionsønske",
+  "@optional": {
+    "description": "Informal address (du) by design."
+  },
+  "optional": "valgfrit",
+  "@required": {
+    "description": "Informal address (du) by design."
+  },
+  "required": "påkrævet",
+  "@emailRequiredText": {
+    "description": "Informal address (du) by design."
+  },
+  "emailRequiredText": "Indtast din e-mailadresse.",
+  "@emailFormatWrongText": {
+    "description": "Informal address (du) by design."
+  },
+  "emailFormatWrongText": "Ugyldigt e-mailformat.",
+  "@comments": {
+    "description": "Informal address (du) by design."
+  },
+  "comments": "Kommentarer",
+  "@writeAComment": {
+    "description": "Informal address (du) by design."
+  },
+  "writeAComment": "Skriv en kommentar..",
+  "@submitComment": {
+    "description": "Informal address (du) by design."
+  },
+  "submitComment": "Send",
+  "@admin": {
+    "description": "Informal address (du) by design."
+  },
+  "admin": "Admin",
+  "@user": {
+    "description": "Informal address (du) by design."
+  },
+  "user": "Bruger",
+  "@noFeatureRequests": {
+    "description": "Informal address (du) by design."
+  },
+  "noFeatureRequests": "Ingen funktionsønsker endnu ✨",
+  "@emailOptional": {
+    "description": "Informal address (du) by design."
+  },
+  "emailOptional": "E-mail (valgfrit)",
+  "@emailRequired": {
+    "description": "Informal address (du) by design."
+  },
+  "emailRequired": "E-mail (påkrævet)",
+  "@discardEnteredInformation": {
+    "description": "Informal address (du) by design."
+  },
+  "discardEnteredInformation": "Kassér ændringer?",
+  "@addButtonInNavigationBar": {
+    "description": "Informal address (du) by design."
+  },
+  "addButtonInNavigationBar": "Opret",
+  "@refresh": {
+    "description": "Informal address (du) by design."
+  },
+  "refresh": "Opdater",
+  "@refreshing": {
+    "description": "Informal address (du) by design."
+  },
+  "refreshing": "Opdaterer..",
+  "@somethingWentWrong": {
+    "description": "Informal address (du) by design."
+  },
+  "somethingWentWrong": "Noget gik galt. Prøv igen senere.",
+  "@all": {
+    "description": "Informal address (du) by design."
+  },
+  "all": "Alle",
+  "@notSupported": {
+    "description": "Informal address (du) by design."
+  },
+  "notSupported": "Understøttes ikke",
+  "@filter": {
+    "description": "Informal address (du) by design."
+  },
+  "filter": "Filter",
+  "@activateToSwitchFilter": {
+    "description": "Informal address (du) by design."
+  },
+  "activateToSwitchFilter": "Aktivér for at skifte filter.",
+  "@seeTranslation": {
+    "description": "Informal address (du) by design."
+  },
+  "seeTranslation": "Se oversættelse",
+  "@seeOriginal": {
+    "description": "Informal address (du) by design."
+  },
+  "seeOriginal": "Se original",
+  "@chat": {
+    "description": "Informal address (du) by design."
+  },
+  "chat": "Skriv til os",
+  "@writeAMessage": {
+    "description": "Informal address (du) by design."
+  },
+  "writeAMessage": "Skriv en besked…",
+  "@send": {
+    "description": "Informal address (du) by design."
+  },
+  "send": "Send",
+  "@chatEmptyState": {
+    "description": "Informal address (du) by design."
+  },
+  "chatEmptyState": "Spørgsmål eller feedback? Send os en besked.",
+  "@failedToSendTapToRetry": {
+    "description": "Informal address (du) by design."
+  },
+  "failedToSendTapToRetry": "Kunne ikke sendes. Tryk for at prøve igen."
+}

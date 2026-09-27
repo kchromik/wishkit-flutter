@@ -1,366 +1,271 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../config/configuration.dart';
-import '../models/wish_state.dart';
-import '../state/wish_provider.dart';
+import '../config/localization.dart';
+import '../models/wish.dart';
+import '../state/detail_wish_view_model.dart';
+import '../state/wishlist_view_model.dart';
+import '../state/wish_model.dart';
 import '../wishkit.dart';
+import 'chat_view.dart';
 import 'create_wish_view.dart';
 import 'detail_wish_view.dart';
 import 'wish_card.dart';
 import 'widgets/add_button.dart';
+import 'widgets/chat_button.dart';
+import 'widgets/segmented_control.dart';
+import 'widgets/skeleton_list.dart';
+import 'widgets/watermark.dart';
 
 /// Main wishlist view showing all feature requests.
+///
+/// Needs a [WishModel] above it in the tree, which is what
+/// `WishKit.feedbackListView` installs. A host embedding the board in their own
+/// page provides the same.
 class WishlistView extends StatefulWidget {
-  const WishlistView({super.key});
+  /// Overrides the app bar title. `null` uses the localized `wishlist` string.
+  final String? title;
+
+  const WishlistView({super.key, this.title});
 
   @override
   State<WishlistView> createState() => _WishlistViewState();
 }
 
 class _WishlistViewState extends State<WishlistView> {
-  WishState? _selectedState;
-  String? _votingWishId;
+  WishlistViewModel? _viewModel;
+  bool _hasUnreadChat = false;
 
   @override
   void initState() {
     super.initState();
-    _selectedState = WishKit.config.defaultState;
+    // Post-frame: `context.read` is not safe in `initState`, and starting the
+    // fetch after the first frame means the skeleton is what the user sees
+    // rather than an empty flash.
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<WishProvider>().fetchList();
+      if (!mounted) return;
+      context.read<WishModel>().fetchList();
+      _checkChatStatus();
     });
   }
 
-  void _openCreateWish() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChangeNotifierProvider.value(
-          value: context.read<WishProvider>(),
-          child: const CreateWishView(),
-        ),
-      ),
-    );
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _viewModel ??= WishlistViewModel(context.read<WishModel>());
+    // A host that changed `visibleStates` at runtime would otherwise be left
+    // filtering a segment it no longer displays.
+    _viewModel!.reconcileSelection();
   }
 
-  void _openWishDetail(wish) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ChangeNotifierProvider.value(
-          value: context.read<WishProvider>(),
-          child: DetailWishView(wish: wish),
-        ),
-      ),
-    );
+  @override
+  void dispose() {
+    _viewModel?.dispose();
+    super.dispose();
   }
 
-  Future<void> _vote(String wishId) async {
-    setState(() => _votingWishId = wishId);
-
-    final provider = context.read<WishProvider>();
-    final localization = WishKit.config.localization;
-
-    final result = await provider.vote(wishId);
-
+  Future<void> _checkChatStatus() async {
+    if (!WishKit.config.showChatButtonInFeedbackView) return;
+    final status = await fetchChatStatus();
     if (!mounted) return;
+    setState(() => _hasUnreadChat = status?.hasUnread ?? false);
+  }
 
-    setState(() => _votingWishId = null);
+  void _openCreateWish() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const CreateWishView()),
+    );
+  }
 
-    if (result == VoteResult.alreadyVoted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localization.alreadyVotedMessage),
-          backgroundColor: Colors.orange,
-        ),
-      );
-    } else if (result == VoteResult.error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localization.voteErrorMessage),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
+  void _openWishDetail(Wish wish) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => DetailWishView(wish: wish)),
+    );
+  }
+
+  void _openChat() {
+    setState(() => _hasUnreadChat = false);
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(builder: (_) => const WishKitChatView()),
+    );
+  }
+
+  /// Shows the exact copy iOS uses for a refused vote.
+  ///
+  /// A `SnackBar` rather than iOS's `alert`, because a modal over a board the
+  /// user is scrolling is heavier than the situation warrants — but the wording
+  /// is the bundled translation, so a localized Flutter board reads the same as
+  /// a localized iOS one.
+  void _showVoteAlert(VoteOutcome outcome) {
+    final strings = context.l10n;
+    final message = switch (outcome) {
+      VoteOutcome.alreadyVoted => strings.youCanOnlyVoteOnce,
+      VoteOutcome.completedWish => strings.youCanNotVoteForACompletedWish,
+      // iOS's generic alert reason falls through to the "your own wish" string,
+      // which is a latent bug there: a server error told the user they could
+      // not vote for their own feedback. `somethingWentWrong` is the honest
+      // string, and it is what the key is for.
+      VoteOutcome.error => strings.somethingWentWrong,
+      VoteOutcome.success || VoteOutcome.voteRemoved => null,
+    };
+    if (message == null) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final model = context.watch<WishModel>();
+    final viewModel = _viewModel;
     final config = WishKit.config;
-    final localization = config.localization;
+    final strings = context.l10n;
 
-    return Consumer<WishProvider>(
-      builder: (context, provider, _) {
-        final wishes = provider.getByState(_selectedState);
+    if (viewModel == null) return const SizedBox.shrink();
 
-        Widget body;
-        if (provider.isLoading && !provider.hasFetched) {
-          body = Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const CircularProgressIndicator(),
-                const SizedBox(height: 16),
-                Text(localization.loading),
-              ],
-            ),
-          );
-        } else if (provider.error != null && !provider.hasFetched) {
-          body = Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.error_outline,
-                  size: 48,
-                  color: Theme.of(context).colorScheme.error,
-                ),
-                const SizedBox(height: 16),
-                Text(localization.errorLoading),
-                const SizedBox(height: 8),
-                ElevatedButton(
-                  onPressed: provider.fetchList,
-                  child: Text(localization.retry),
-                ),
-              ],
-            ),
-          );
-        } else if (wishes.isEmpty) {
-          body = Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.lightbulb_outline,
-                  size: 48,
-                  color: Theme.of(context).disabledColor,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  localization.noWishes,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ],
-            ),
-          );
-        } else {
-          body = RefreshIndicator(
-            onRefresh: provider.fetchList,
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: 8, bottom: 80),
-              itemCount: wishes.length,
-              itemBuilder: (context, index) {
-                final wish = wishes[index];
-                return WishCard(
-                  wish: wish,
-                  hasVoted: provider.hasVoted(wish),
-                  isVoting: _votingWishId == wish.id,
-                  onTap: () => _openWishDetail(wish),
-                  onVote: () => _vote(wish.id),
-                );
-              },
-            ),
-          );
-        }
-
-        return Column(
-          children: [
-            if (config.buttons.segmentedControl.display == Display.show)
-              _SegmentedControl(
-                selectedState: _selectedState,
-                onChanged: (state) => setState(() => _selectedState = state),
-                localization: localization,
-              ),
-            Expanded(
-              child: Stack(
-                children: [
-                  body,
-                  if (config.buttons.addButton.display == Display.show &&
-                      config.buttons.addButton.location ==
-                          AddButtonLocation.floating)
-                    Positioned(
-                      right: 16,
-                      bottom: _getAddButtonPadding(
-                          config.buttons.addButton.bottomPadding),
-                      child: AddButton(onPressed: _openCreateWish),
-                    ),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  double _getAddButtonPadding(ButtonPadding padding) {
-    switch (padding) {
-      case ButtonPadding.small:
-        return 8;
-      case ButtonPadding.medium:
-        return 16;
-      case ButtonPadding.large:
-        return 24;
-    }
-  }
-}
-
-/// Segmented control for filtering wishes by state.
-class _SegmentedControl extends StatelessWidget {
-  final WishState? selectedState;
-  final ValueChanged<WishState?> onChanged;
-  final dynamic localization;
-
-  const _SegmentedControl({
-    required this.selectedState,
-    required this.onChanged,
-    required this.localization,
-  });
-
-  String _getLabelForState(WishState state) {
-    switch (state) {
-      case WishState.pending:
-        return localization.tabPending;
-      case WishState.inReview:
-        return localization.tabInReview;
-      case WishState.approved:
-        return localization.tabApproved;
-      case WishState.planned:
-        return localization.tabPlanned;
-      case WishState.inProgress:
-        return localization.tabInProgress;
-      case WishState.completed:
-      case WishState.implemented:
-        return localization.tabCompleted;
-      case WishState.rejected:
-        return localization.tabRejected;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final primaryColor = WishKit.theme.primaryColor;
-    final visibleStates = WishKit.config.visibleStates;
-    final showAllTab = WishKit.config.showAllTab;
-
-    // Build list of chips based on configuration
-    final chips = <Widget>[];
-
-    // Show "All" chip if enabled
-    if (showAllTab) {
-      chips.add(_buildChip(
-        label: localization.all,
-        isSelected: selectedState == null,
-        onTap: () => onChanged(null),
-        primaryColor: primaryColor,
-      ));
-    }
-
-    // If visibleStates is configured, only show those states
-    if (visibleStates != null) {
-      for (final state in visibleStates) {
-        if (chips.isNotEmpty) {
-          chips.add(const SizedBox(width: 8));
-        }
-        chips.add(_buildChip(
-          label: _getLabelForState(state),
-          isSelected: selectedState == state,
-          onTap: () => onChanged(state),
-          primaryColor: primaryColor,
-        ));
-      }
-    } else {
-      // Show all states
-      final allStates = [
-        WishState.pending,
-        WishState.planned,
-        WishState.completed,
-      ];
-      for (final state in allStates) {
-        if (chips.isNotEmpty) {
-          chips.add(const SizedBox(width: 8));
-        }
-        chips.add(_buildChip(
-          label: _getLabelForState(state),
-          isSelected: selectedState == state,
-          onTap: () => onChanged(state),
-          primaryColor: primaryColor,
-        ));
-      }
-    }
-
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(children: chips),
-    );
-  }
-
-  Widget _buildChip({
-    required String label,
-    required bool isSelected,
-    required VoidCallback onTap,
-    required Color primaryColor,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? primaryColor : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? primaryColor : Colors.grey.withValues(alpha: 0.3),
-          ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.grey,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Wishlist page with Scaffold and AppBar.
-class WishlistPage extends StatelessWidget {
-  final String? title;
-
-  const WishlistPage({
-    super.key,
-    this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final config = WishKit.config;
-    final localization = config.localization;
+    final addButton = config.buttons.addButton;
+    final showAddButton = addButton.display == Display.show;
+    final showFloatingAdd =
+        showAddButton && addButton.location == AddButtonLocation.floating;
+    final bottomPadding =
+        showFloatingAdd ? addButton.listBottomPadding : 24.0;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title ?? localization.featureRequest),
+        // iOS titles the board `featureWishlist`; `wishlist` is the Flutter
+        // string that has always shipped here. Both are bundled, so a host
+        // that wants the iOS wording overrides one key.
+        title: Text(widget.title ?? strings.wishlist),
         actions: [
-          if (config.buttons.addButton.display == Display.show &&
-              config.buttons.addButton.location == AddButtonLocation.navigationBar)
+          if (showAddButton &&
+              addButton.location == AddButtonLocation.navigationBar)
             IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ChangeNotifierProvider.value(
-                      value: context.read<WishProvider>(),
-                      child: const CreateWishView(),
-                    ),
-                  ),
-                );
-              },
+              onPressed: _openCreateWish,
               icon: const Icon(Icons.add),
+              tooltip: strings.createWish,
             ),
         ],
       ),
-      body: const WishlistView(),
+        body: Column(
+          children: [
+            if (viewModel.isSegmentedControlVisible)
+              WishlistSegmentedControl(viewModel: viewModel),
+            Expanded(
+              child: Builder(
+                builder: (context) {
+                  if (model.isLoading && !model.hasFetched) {
+                    return const WishlistSkeleton();
+                  }
+
+                  final wishes = viewModel.visibleWishes;
+                  if (wishes.isEmpty) {
+                    return _emptyState(viewModel, model);
+                  }
+
+                  return RefreshIndicator(
+                    onRefresh: model.fetchList,
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(top: 4, bottom: bottomPadding),
+                      itemCount: wishes.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == wishes.length) {
+                          return ConditionalWatermark(
+                            visible: model.shouldShowWatermark,
+                            padding: EdgeInsets.only(top: bottomPadding),
+                          );
+                        }
+
+                        final wish = wishes[index];
+                        return WishCard(
+                          // Keyed by wish id so a segment switch reuses the
+                          // existing card state — including an in-flight vote —
+                          // instead of rebuilding every card from scratch.
+                          key: ValueKey(wish.id),
+                          wish: wish,
+                          userUuid: model.currentUserUuid ?? '',
+                          onTap: () => _openWishDetail(wish),
+                          onVoteRejected: _showVoteAlert,
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+        floatingActionButton: _floatingActions(showAddButton, showFloatingAdd),
+    );
+  }
+
+  /// The chat button floats above the add button.
+  ///
+  /// Both are in the same slot rather than one being pinned with a `Stack`, so
+  /// the Scaffold keeps owning the bottom inset and neither button can end up
+  /// under a keyboard or a home indicator.
+  Widget? _floatingActions(bool showAddButton, bool showFloatingAdd) {
+    final actions = <Widget>[
+      if (WishKit.config.showChatButtonInFeedbackView)
+        FeedbackChatButton(
+          onPressed: _openChat,
+          hasUnread: _hasUnreadChat,
+        ),
+      if (showFloatingAdd) AddButton(onPressed: _openCreateWish),
+    ];
+    if (actions.isEmpty) return null;
+    if (actions.length == 1) return actions.single;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [actions.first, const SizedBox(height: 16), actions.last],
+    );
+  }
+
+  /// What the board shows when the selected bucket has nothing in it.
+  ///
+  /// iOS prints `"<Bucket>: <no feature requests>"`. When the segmented
+  /// control is on and the *other* bucket does have rows, the useful thing to
+  /// say is the `activateToSwitchFilter` prompt rather than "there is nothing
+  /// here": the user is one tap from content.
+  Widget _emptyState(WishlistViewModel viewModel, WishModel model) {
+    final strings = context.l10n;
+    final theme = Theme.of(context);
+
+    final otherSegmentHasRows = viewModel.segments
+        .where((segment) => segment != viewModel.selected)
+        .any((segment) => viewModel.countFor(segment) > 0);
+
+    final String message;
+    if (viewModel.isSegmentedControlVisible && otherSegmentHasRows) {
+      message = strings.activateToSwitchFilter;
+    } else {
+      // `<Bucket>: <noFeatureRequests>` — the same shape as iOS, and composed
+      // from two keys so a host who overrides either half still gets their own
+      // words in the right order.
+      message = '${strings.filterLabel(viewModel.selected)}: '
+          '${strings.noFeatureRequests}';
+    }
+
+    // Scrollable on purpose: `RefreshIndicator` needs a scrollable, and without
+    // one a failed fetch leaves no way to retry but the add button.
+    return ListView(
+      children: [
+        SizedBox(
+          height: MediaQuery.sizeOf(context).height * 0.4,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Text(
+                message,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyMedium,
+              ),
+            ),
+          ),
+        ),
+        ConditionalWatermark(visible: model.shouldShowWatermark),
+      ],
     );
   }
 }

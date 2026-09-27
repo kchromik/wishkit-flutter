@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../config/configuration.dart';
+import '../config/localization.dart';
+import '../models/comment.dart';
 import '../models/wish.dart';
-import '../state/wish_provider.dart';
+import '../models/wish_state.dart';
+import '../state/detail_wish_view_model.dart';
+import '../state/wish_model.dart';
 import '../wishkit.dart';
+import 'widgets/comment_list.dart';
 import 'widgets/status_badge.dart';
+import 'widgets/translate_section.dart';
 import 'widgets/vote_button.dart';
 
 /// Detailed view for a single wish.
@@ -22,315 +29,187 @@ class DetailWishView extends StatefulWidget {
 
 class _DetailWishViewState extends State<DetailWishView> {
   final _commentController = TextEditingController();
-  bool _isVoting = false;
-  bool _isCommenting = false;
+  final _scrollController = ScrollController();
+
+  DetailWishViewModel? _viewModel;
+  String? _builtForLanguage;
+
+  /// The thread as this screen last saw it.
+  ///
+  /// Kept separately from the model so a new comment appears immediately after
+  /// the server acknowledges it, rather than after a full board refetch that
+  /// also re-sorts the list underneath the user.
+  List<Comment> _comments = const [];
+
+  @override
+  void initState() {
+    super.initState();
+    _comments = List<Comment>.of(widget.wish.comments);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _refreshComments();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final language = context.l10n.languageTag;
+    if (_viewModel != null && _builtForLanguage == language) return;
+
+    _viewModel?.dispose();
+    _builtForLanguage = language;
+    _viewModel = DetailWishViewModel.forWish(
+      widget.wish,
+      model: context.read<WishModel>(),
+      appLanguage: language,
+      appScript: context.l10n.scriptCode,
+    );
+    setState(() {});
+  }
 
   @override
   void dispose() {
     _commentController.dispose();
+    _scrollController.dispose();
+    _viewModel?.dispose();
     super.dispose();
   }
 
+  /// Pulls the thread fresh, so a reply that landed since the board's fetch is
+  /// not read from a stale snapshot.
+  Future<void> _refreshComments() async {
+    final fetched = await context.read<WishModel>().fetchComments(widget.wish.id);
+    if (!mounted) return;
+    // An empty response would wipe a thread the user is reading; the list
+    // endpoint can legitimately come back empty for a wish with no comments,
+    // which is indistinguishable from a backend that has not shipped the
+    // endpoint yet. Only replace when we actually got something.
+    if (fetched.isEmpty && _comments.isNotEmpty) return;
+    setState(() => _comments = fetched);
+  }
+
   Future<void> _vote() async {
-    setState(() => _isVoting = true);
-
-    final provider = context.read<WishProvider>();
-    final hasVoted = provider.hasVoted(widget.wish);
-    final config = WishKit.config;
-    final localization = config.localization;
-
-    VoteResult result;
-    if (hasVoted && config.allowUndoVote) {
-      result = await provider.removeVote(widget.wish.id);
-    } else {
-      result = await provider.vote(widget.wish.id);
-    }
-
+    final outcome = await _viewModel!.toggleVote();
     if (!mounted) return;
 
-    setState(() => _isVoting = false);
+    final strings = context.l10n;
+    final message = switch (outcome) {
+      VoteOutcome.alreadyVoted => strings.youCanOnlyVoteOnce,
+      VoteOutcome.completedWish => strings.youCanNotVoteForACompletedWish,
+      // See the note in `wishlist_view.dart`: iOS falls through to the own-wish
+      // string here, which is a latent bug there.
+      VoteOutcome.error => strings.somethingWentWrong,
+      VoteOutcome.success || VoteOutcome.voteRemoved => null,
+    };
+    if (message == null) return;
 
-    if (result == VoteResult.alreadyVoted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localization.alreadyVotedMessage),
-          backgroundColor: Colors.orange,
-        ),
-      );
-    } else if (result == VoteResult.error) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localization.voteErrorMessage),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
+    );
   }
 
   Future<void> _submitComment() async {
-    final text = _commentController.text.trim();
-    if (text.isEmpty) return;
+    final comment = await _viewModel!.submitComment();
+    if (!mounted || comment == null) return;
 
-    setState(() => _isCommenting = true);
-
-    final provider = context.read<WishProvider>();
-    final localization = WishKit.config.localization;
-
-    final success = await provider.addComment(widget.wish.id, text);
-
-    if (!mounted) return;
-
-    setState(() => _isCommenting = false);
-
-    if (success) {
-      _commentController.clear();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localization.commentErrorMessage),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
+    setState(() => _comments = [comment, ..._comments]);
+    _commentController.clear();
+    // Let the field read as "sent" without stealing focus back from wherever
+    // the user moved to.
+    FocusScope.of(context).unfocus();
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = _viewModel;
+    if (viewModel == null) return const SizedBox.shrink();
+
     final config = WishKit.config;
-    final localization = config.localization;
-    final theme = Theme.of(context);
-    final primaryColor = WishKit.theme.primaryColor;
+    final strings = context.l10n;
+    final showComments = config.commentSection == Display.show;
+    // Pending always shows its badge even when the host turned badges off: it
+    // is how a user recognises their own unapproved feedback. Matches iOS.
+    final showBadge = config.statusBadge == Display.show ||
+        widget.wish.state == WishState.pending;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(localization.featureRequest),
-      ),
-      body: Consumer<WishProvider>(
-        builder: (context, provider, _) {
-          // Get updated wish from provider
-          final wish = provider.wishes.firstWhere(
-            (w) => w.id == widget.wish.id,
-            orElse: () => widget.wish,
-          );
-          final hasVoted = provider.hasVoted(wish);
-
-          return Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.all(16),
+      appBar: AppBar(title: Text(strings.detail)),
+      body: ListView(
+        controller: _scrollController,
+        // The composer is pinned to the bottom of the Scaffold rather than the
+        // end of the list, so it does not scroll away under a long thread.
+        padding: const EdgeInsets.only(bottom: 24),
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Vote section
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        VoteButton(
-                          voteCount: wish.voteCount,
-                          hasVoted: hasVoted,
-                          isLoading: _isVoting,
-                          onPressed: _vote,
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                wish.title,
-                                style: theme.textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              if (config.statusBadge == Display.show) ...[
-                                const SizedBox(height: 8),
-                                StatusBadge(state: wish.state),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ],
+                    Expanded(
+                      child: Text(
+                        viewModel.title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(fontWeight: FontWeight.w600),
+                      ),
                     ),
-
-                    // Description
-                    if (wish.description.isNotEmpty) ...[
-                      const SizedBox(height: 16),
-                      Text(
-                        wish.description,
-                        style: theme.textTheme.bodyLarge,
-                      ),
-                    ],
-
-                    // Comments section
-                    if (config.commentSection == Display.show) ...[
-                      const SizedBox(height: 24),
-                      const Divider(),
-                      const SizedBox(height: 16),
-                      Text(
-                        localization.comments,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Comment list
-                      if (wish.comments.isEmpty)
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Text(
-                              localization.noComments,
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.textTheme.bodySmall?.color,
-                              ),
-                            ),
-                          ),
-                        )
-                      else
-                        ...wish.comments.map((comment) => _CommentItem(
-                              comment: comment,
-                              localization: localization,
-                            )),
+                    if (showBadge) ...[
+                      const SizedBox(width: 8),
+                      StatusBadge(state: widget.wish.state),
                     ],
                   ],
                 ),
-              ),
-
-              // Comment input
-              if (config.commentSection == Display.show)
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: theme.scaffoldBackgroundColor,
-                    border: Border(
-                      top: BorderSide(color: theme.dividerColor),
+                if (viewModel.description.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  // The detail view is the one place a description is never
+                  // clamped: the user came here to read it.
+                  Text(
+                    viewModel.description,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ],
+                TranslateSection(viewModel: viewModel),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    VoteButton(
+                      voteCount: viewModel.voteCount,
+                      hasVoted: viewModel.hasVoted,
+                      isLoading: viewModel.isVoting,
+                      onPressed: _vote,
+                      semanticsLabel: strings.upvote,
                     ),
-                  ),
-                  child: SafeArea(
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _commentController,
-                            decoration: InputDecoration(
-                              hintText: localization.commentPlaceholder,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(24),
-                              ),
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 8,
-                              ),
-                            ),
-                            textCapitalization: TextCapitalization.sentences,
-                            maxLines: null,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        IconButton(
-                          onPressed: _isCommenting ? null : _submitComment,
-                          icon: _isCommenting
-                              ? const SizedBox(
-                                  width: 24,
-                                  height: 24,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
-                                )
-                              : Icon(
-                                  Icons.send,
-                                  color: primaryColor,
-                                ),
-                        ),
-                      ],
+                    const SizedBox(width: 12),
+                    Text(
+                      strings.votes,
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
-                  ),
+                  ],
                 ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _CommentItem extends StatelessWidget {
-  final dynamic comment;
-  final dynamic localization;
-
-  const _CommentItem({
-    required this.comment,
-    required this.localization,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: theme.dividerColor),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: comment.isAdmin
-                      ? Colors.blue.withValues(alpha: 0.1)
-                      : Colors.grey.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text(
-                  comment.isAdmin ? localization.admin : localization.user,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: comment.isAdmin ? Colors.blue : Colors.grey,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Text(
-                _formatDate(comment.createdAt),
-                style: theme.textTheme.bodySmall,
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            comment.description,
-            style: theme.textTheme.bodyMedium,
-          ),
+          if (showComments)
+            CommentList(
+              comments: _comments,
+              localeName: strings.localeName,
+            ),
         ],
       ),
+      bottomNavigationBar: showComments
+          ? CommentComposer(
+              controller: _commentController,
+              value: viewModel.newComment,
+              isSubmitting: viewModel.isLoading,
+              onChanged: viewModel.setNewComment,
+              onSubmit: _submitComment,
+            )
+          : null,
     );
-  }
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final diff = now.difference(date);
-    final l = WishKit.config.localization;
-
-    if (diff.inDays > 365) {
-      return l.formatTimeAgo(l.timeYearsAgo, (diff.inDays / 365).floor());
-    } else if (diff.inDays > 30) {
-      return l.formatTimeAgo(l.timeMonthsAgo, (diff.inDays / 30).floor());
-    } else if (diff.inDays > 0) {
-      return l.formatTimeAgo(l.timeDaysAgo, diff.inDays);
-    } else if (diff.inHours > 0) {
-      return l.formatTimeAgo(l.timeHoursAgo, diff.inHours);
-    } else if (diff.inMinutes > 0) {
-      return l.formatTimeAgo(l.timeMinutesAgo, diff.inMinutes);
-    } else {
-      return l.timeJustNow;
-    }
   }
 }

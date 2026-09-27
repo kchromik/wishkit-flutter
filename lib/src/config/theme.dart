@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 /// Theme configuration for WishKit.
 class WishKitTheme {
   /// Primary color used for buttons, highlights, etc.
-  final Color primaryColor;
+  ///
+  /// `null` — the default — inherits the host app's `ThemeData.colorScheme
+  /// .primary`, which is what iOS does with its `.accentColor` default of
+  /// `Color.accentColor`: a feedback board that looks like a stranger in the
+  /// middle of someone else's app is worse than one that looks native.
+  final Color? primaryColor;
 
   /// Secondary color used for cards, text fields.
   final WishKitColorScheme? secondaryColor;
@@ -18,12 +23,18 @@ class WishKitTheme {
   final WishKitBadgeTheme badgeTheme;
 
   const WishKitTheme({
-    this.primaryColor = Colors.green,
+    this.primaryColor,
     this.secondaryColor,
     this.tertiaryColor,
     this.textColor,
     this.badgeTheme = const WishKitBadgeTheme(),
   });
+
+  /// [primaryColor], or [fallback] when the host did not set one.
+  ///
+  /// Widgets call this with the app's resolved primary so a single lookup at
+  /// build time replaces a `!` at every use site.
+  Color resolvePrimaryColor(Color fallback) => primaryColor ?? fallback;
 
   /// Creates a copy with modified values.
   WishKitTheme copyWith({

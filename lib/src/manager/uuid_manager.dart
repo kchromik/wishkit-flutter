@@ -1,3 +1,4 @@
+import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -41,5 +42,15 @@ class UUIDManager {
   /// Clears the cached UUID (for testing).
   static void clearCache() {
     _cachedUUID = null;
+  }
+
+  /// Sets the cached UUID directly, bypassing [SharedPreferences].
+  ///
+  /// Exposed so tests can pin the device id without a platform channel. Not
+  /// public API for production code — a host app should let the SDK manage the
+  /// UUID.
+  @visibleForTesting
+  static void setCachedForTest(String uuid) {
+    _cachedUUID = uuid;
   }
 }

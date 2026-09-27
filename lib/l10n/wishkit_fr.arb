@@ -1,0 +1,243 @@
+{
+  "@@locale": "fr",
+  "@requested": {
+    "description": "Informal address (tu) by design."
+  },
+  "requested": "Demandé",
+  "@pending": {
+    "description": "Informal address (tu) by design."
+  },
+  "pending": "En attente",
+  "@approved": {
+    "description": "Informal address (tu) by design."
+  },
+  "approved": "Approuvé",
+  "@implemented": {
+    "description": "Informal address (tu) by design."
+  },
+  "implemented": "Terminé",
+  "@inReview": {
+    "description": "Informal address (tu) by design."
+  },
+  "inReview": "En cours d'examen",
+  "@planned": {
+    "description": "Informal address (tu) by design."
+  },
+  "planned": "Planifié",
+  "@inProgress": {
+    "description": "Informal address (tu) by design."
+  },
+  "inProgress": "En cours",
+  "@completed": {
+    "description": "Informal address (tu) by design."
+  },
+  "completed": "Terminé",
+  "@open": {
+    "description": "Informal address (tu) by design."
+  },
+  "open": "Ouvertes",
+  "@closed": {
+    "description": "Informal address (tu) by design."
+  },
+  "closed": "Fermées",
+  "@wishlist": {
+    "description": "Informal address (tu) by design."
+  },
+  "wishlist": "Demandes de fonctionnalités",
+  "@save": {
+    "description": "Informal address (tu) by design."
+  },
+  "save": "Envoyer",
+  "@title": {
+    "description": "Informal address (tu) by design."
+  },
+  "title": "Titre",
+  "@description": {
+    "description": "Informal address (tu) by design."
+  },
+  "description": "Description",
+  "@upvote": {
+    "description": "Informal address (tu) by design."
+  },
+  "upvote": "Voter",
+  "@info": {
+    "description": "Informal address (tu) by design."
+  },
+  "info": "Info",
+  "@youCanOnlyVoteOnce": {
+    "description": "Informal address (tu) by design."
+  },
+  "youCanOnlyVoteOnce": "Tu ne peux voter qu'une seule fois.",
+  "@youCanNotVoteForACompletedWish": {
+    "description": "Informal address (tu) by design."
+  },
+  "youCanNotVoteForACompletedWish": "Tu ne peux pas voter pour une fonctionnalité déjà terminée.",
+  "@youCanNotVoteForYourOwnWish": {
+    "description": "Informal address (tu) by design."
+  },
+  "youCanNotVoteForYourOwnWish": "Tu ne peux pas voter pour ta propre demande.",
+  "@poweredBy": {
+    "description": "Informal address (tu) by design."
+  },
+  "poweredBy": "Propulsé par",
+  "@successfullyCreated": {
+    "description": "Informal address (tu) by design."
+  },
+  "successfullyCreated": "Envoyé avec succès",
+  "@done": {
+    "description": "Informal address (tu) by design."
+  },
+  "done": "Terminé",
+  "@detail": {
+    "description": "Informal address (tu) by design."
+  },
+  "detail": "Vue détaillée",
+  "@featureWishlist": {
+    "description": "Informal address (tu) by design."
+  },
+  "featureWishlist": "Demandes de fonctionnalités",
+  "@confirm": {
+    "description": "Informal address (tu) by design."
+  },
+  "confirm": "Confirmer",
+  "@cancel": {
+    "description": "Informal address (tu) by design."
+  },
+  "cancel": "Annuler",
+  "@ok": {
+    "description": "Informal address (tu) by design."
+  },
+  "ok": "Ok",
+  "@titleOfWish": {
+    "description": "Informal address (tu) by design."
+  },
+  "titleOfWish": "Titre de la fonctionnalité..",
+  "@titleDescriptionCannotBeEmpty": {
+    "description": "Informal address (tu) by design."
+  },
+  "titleDescriptionCannotBeEmpty": "Le titre et la description ne peuvent pas être vides.",
+  "@votes": {
+    "description": "Informal address (tu) by design."
+  },
+  "votes": "Votes",
+  "@close": {
+    "description": "Informal address (tu) by design."
+  },
+  "close": "Fermer",
+  "@createWish": {
+    "description": "Informal address (tu) by design."
+  },
+  "createWish": "Nouvelle demande de fonctionnalité",
+  "@optional": {
+    "description": "Informal address (tu) by design."
+  },
+  "optional": "facultatif",
+  "@required": {
+    "description": "Informal address (tu) by design."
+  },
+  "required": "obligatoire",
+  "@emailRequiredText": {
+    "description": "Informal address (tu) by design."
+  },
+  "emailRequiredText": "Merci de saisir ton adresse e-mail.",
+  "@emailFormatWrongText": {
+    "description": "Informal address (tu) by design."
+  },
+  "emailFormatWrongText": "Format d'e-mail incorrect.",
+  "@comments": {
+    "description": "Informal address (tu) by design."
+  },
+  "comments": "Commentaires",
+  "@writeAComment": {
+    "description": "Informal address (tu) by design."
+  },
+  "writeAComment": "Écris un commentaire..",
+  "@submitComment": {
+    "description": "Informal address (tu) by design."
+  },
+  "submitComment": "Envoyer",
+  "@admin": {
+    "description": "Informal address (tu) by design."
+  },
+  "admin": "Admin",
+  "@user": {
+    "description": "Informal address (tu) by design."
+  },
+  "user": "Utilisateur",
+  "@noFeatureRequests": {
+    "description": "Informal address (tu) by design."
+  },
+  "noFeatureRequests": "Pas encore de demandes ✨",
+  "@emailOptional": {
+    "description": "Informal address (tu) by design."
+  },
+  "emailOptional": "E-mail (facultatif)",
+  "@emailRequired": {
+    "description": "Informal address (tu) by design."
+  },
+  "emailRequired": "E-mail (obligatoire)",
+  "@discardEnteredInformation": {
+    "description": "Informal address (tu) by design."
+  },
+  "discardEnteredInformation": "Abandonner les modifications ?",
+  "@addButtonInNavigationBar": {
+    "description": "Informal address (tu) by design."
+  },
+  "addButtonInNavigationBar": "Créer",
+  "@refresh": {
+    "description": "Informal address (tu) by design."
+  },
+  "refresh": "Actualiser",
+  "@refreshing": {
+    "description": "Informal address (tu) by design."
+  },
+  "refreshing": "Actualisation..",
+  "@somethingWentWrong": {
+    "description": "Informal address (tu) by design."
+  },
+  "somethingWentWrong": "Un problème est survenu. Réessaie plus tard.",
+  "@all": {
+    "description": "Informal address (tu) by design."
+  },
+  "all": "Toutes",
+  "@notSupported": {
+    "description": "Informal address (tu) by design."
+  },
+  "notSupported": "Non pris en charge",
+  "@filter": {
+    "description": "Informal address (tu) by design."
+  },
+  "filter": "Filtre",
+  "@activateToSwitchFilter": {
+    "description": "Informal address (tu) by design."
+  },
+  "activateToSwitchFilter": "Activer pour changer de filtre.",
+  "@seeTranslation": {
+    "description": "Informal address (tu) by design."
+  },
+  "seeTranslation": "Voir la traduction",
+  "@seeOriginal": {
+    "description": "Informal address (tu) by design."
+  },
+  "seeOriginal": "Voir l'original",
+  "@chat": {
+    "description": "Informal address (tu) by design."
+  },
+  "chat": "Écrivez-nous",
+  "@writeAMessage": {
+    "description": "Informal address (tu) by design."
+  },
+  "writeAMessage": "Écrivez un message…",
+  "@send": {
+    "description": "Informal address (tu) by design."
+  },
+  "send": "Envoyer",
+  "@chatEmptyState": {
+    "description": "Informal address (tu) by design."
+  },
+  "chatEmptyState": "Des questions ou des retours ? Envoyez-nous un message.",
+  "@failedToSendTapToRetry": {
+    "description": "Informal address (tu) by design."
+  },
+  "failedToSendTapToRetry": "Échec de l'envoi. Touchez pour réessayer."
+}

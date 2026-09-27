@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../config/configuration.dart';
-import '../models/wish.dart';
-import '../state/wish_provider.dart';
-import '../wishkit.dart';
+import '../config/localization.dart';
+import '../state/create_wish_view_model.dart';
+import '../state/wish_model.dart';
+import '../utilities/validation.dart';
 
 /// View for creating a new wish.
+///
+/// Port of `CreateWishView`. The form state lives in a
+/// [CreateWishViewModel] rather than in three `TextEditingController`s plus a
+/// mirrored `isDirty` flag, which is what let the "discard changes?" prompt
+/// fire on an empty form and the submit button drift out of sync with the text
+/// on screen.
 class CreateWishView extends StatefulWidget {
   const CreateWishView({super.key});
 
@@ -14,28 +22,18 @@ class CreateWishView extends StatefulWidget {
 }
 
 class _CreateWishViewState extends State<CreateWishView> {
-  final _formKey = GlobalKey<FormState>();
+  late final CreateWishViewModel _viewModel;
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _emailController = TextEditingController();
-  bool _isSubmitting = false;
-  bool _hasChanges = false;
-
-  static const int _maxTitleLength = 50;
-  static const int _maxDescriptionLength = 500;
 
   @override
   void initState() {
     super.initState();
-    _titleController.addListener(_onChanged);
-    _descriptionController.addListener(_onChanged);
-    _emailController.addListener(_onChanged);
-  }
-
-  void _onChanged() {
-    if (!_hasChanges) {
-      setState(() => _hasChanges = true);
-    }
+    final model = context.read<WishModel>();
+    _viewModel = CreateWishViewModel(
+      onSubmit: (request) => model.createWish(request),
+    );
   }
 
   @override
@@ -43,225 +41,193 @@ class _CreateWishViewState extends State<CreateWishView> {
     _titleController.dispose();
     _descriptionController.dispose();
     _emailController.dispose();
+    _viewModel.dispose();
     super.dispose();
   }
 
-  Future<bool> _onWillPop() async {
-    if (!_hasChanges) return true;
+  Future<void> _submit() async {
+    final outcome = await _viewModel.submit();
+    if (!mounted) return;
 
-    final localization = WishKit.config.localization;
-    final result = await showDialog<bool>(
+    if (outcome == CreateWishSubmitOutcome.success) {
+      Navigator.of(context).pop();
+      return;
+    }
+
+    final strings = context.l10n;
+    final message = switch (outcome) {
+      CreateWishSubmitOutcome.emailRequired => strings.emailRequiredText,
+      CreateWishSubmitOutcome.emailFormatWrong => strings.emailFormatWrongText,
+      CreateWishSubmitOutcome.createReturnedError => strings.somethingWentWrong,
+      CreateWishSubmitOutcome.success => null,
+    };
+    if (message == null) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
+    );
+  }
+
+  /// Confirms before throwing away a partially filled form.
+  ///
+  /// Keyed on the view model's `isDirty`, which is the text the user can
+  /// actually see. The old `setState(() => _hasChanges = true)` in a
+  /// controller listener also fired when the form was programmatically
+  /// cleared, so leaving an untouched screen could prompt.
+  Future<bool> _confirmDiscard() async {
+    if (!_viewModel.isDirty) return true;
+
+    final strings = context.l10n;
+    // The dialog's own context is what `showDialog` needs; the strings are read
+    // before the await so no context crosses the gap.
+    final discard = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(localization.unsavedChangesTitle),
-        content: Text(localization.unsavedChangesMessage),
+      builder: (dialogContext) => AlertDialog(
+        title: Text(strings.discardEnteredInformation),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text(localization.cancel),
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(strings.cancel),
           ),
           TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text(localization.discard),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(strings.confirm),
           ),
         ],
       ),
     );
-
-    return result ?? false;
-  }
-
-  Future<void> _submit() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _isSubmitting = true);
-
-    final provider = context.read<WishProvider>();
-    final localization = WishKit.config.localization;
-
-    final request = CreateWishRequest(
-      title: _titleController.text.trim(),
-      description: _descriptionController.text.trim(),
-      email: _emailController.text.trim().isEmpty
-          ? null
-          : _emailController.text.trim(),
-    );
-
-    final success = await provider.createWish(request);
-
-    if (!mounted) return;
-
-    setState(() => _isSubmitting = false);
-
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(localization.wishCreatedMessage),
-          backgroundColor: Colors.green,
-        ),
-      );
-      Navigator.pop(context);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(provider.error ?? localization.errorTitle),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
+    return discard ?? false;
   }
 
   @override
   Widget build(BuildContext context) {
-    final config = WishKit.config;
-    final localization = config.localization;
+    final strings = context.l10n;
     final theme = Theme.of(context);
-    final primaryColor = WishKit.theme.primaryColor;
+    final emailField = _viewModel.emailField;
 
-    return PopScope(
-      canPop: !_hasChanges,
-      onPopInvokedWithResult: (didPop, result) async {
-        if (!didPop) {
-          final shouldPop = await _onWillPop();
-          if (shouldPop && mounted) {
-            Navigator.pop(context);
-          }
-        }
+    return PopScope<bool>(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        final navigator = Navigator.of(context);
+        if (await _confirmDiscard()) navigator.pop();
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(localization.featureRequest),
-          actions: [
-            if (config.buttons.doneButton.display == Display.show)
-              TextButton(
-                onPressed: _isSubmitting ? null : _submit,
-                child: _isSubmitting
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : Text(
-                        localization.save,
-                        style: TextStyle(color: primaryColor),
-                      ),
-              ),
-          ],
-        ),
-        body: Form(
-          key: _formKey,
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              Text(
-                localization.title,
-                style: theme.textTheme.labelLarge,
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
+        appBar: AppBar(title: Text(strings.createWish)),
+        body: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            _LabelledField(
+              label: strings.title,
+              child: TextField(
                 controller: _titleController,
-                maxLength: _maxTitleLength,
+                onChanged: _viewModel.setTitle,
+                enabled: !_viewModel.isButtonLoading,
+                maxLength: WishValidation.titleLimit,
                 textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(
-                  hintText: localization.titlePlaceholder,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+                  hintText: strings.titleOfWish,
+                  border: const OutlineInputBorder(),
                 ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return localization.titleRequired;
-                  }
-                  return null;
-                },
               ),
-              const SizedBox(height: 16),
-              Text(
-                localization.description,
-                style: theme.textTheme.labelLarge,
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
+            ),
+            const SizedBox(height: 16),
+            _LabelledField(
+              label: strings.description,
+              child: TextField(
                 controller: _descriptionController,
-                maxLength: _maxDescriptionLength,
-                maxLines: 5,
+                onChanged: _viewModel.setDescription,
+                enabled: !_viewModel.isButtonLoading,
+                minLines: 3,
+                maxLines: 6,
+                maxLength: WishValidation.descriptionLimit,
                 textCapitalization: TextCapitalization.sentences,
                 decoration: InputDecoration(
-                  hintText: localization.descriptionPlaceholder,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  alignLabelWithHint: true,
+                  hintText: strings.descriptionPlaceholder,
+                  border: const OutlineInputBorder(),
                 ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return localization.descriptionRequired;
-                  }
-                  return null;
-                },
               ),
-              if (config.emailField != EmailField.none) ...[
-                const SizedBox(height: 16),
-                Text(
-                  localization.email,
-                  style: theme.textTheme.labelLarge,
-                ),
-                const SizedBox(height: 8),
-                TextFormField(
+            ),
+            if (emailField != EmailField.none) ...[
+              const SizedBox(height: 16),
+              _LabelledField(
+                // iOS labels the field "Email (optional)" / "Email (required)"
+                // through two separate keys rather than composing them, so a
+                // host overriding one gets exactly that string.
+                label: emailField == EmailField.required
+                    ? strings.emailRequired
+                    : strings.emailOptional,
+                child: TextField(
                   controller: _emailController,
+                  onChanged: _viewModel.setEmail,
+                  enabled: !_viewModel.isButtonLoading,
                   keyboardType: TextInputType.emailAddress,
+                  autocorrect: false,
                   decoration: InputDecoration(
-                    hintText: localization.emailPlaceholder,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    hintText: strings.emailPlaceholder,
+                    border: const OutlineInputBorder(),
                   ),
-                  validator: (value) {
-                    if (config.emailField == EmailField.required) {
-                      if (value == null || value.trim().isEmpty) {
-                        return localization.emailRequiredValidation;
-                      }
-                    }
-                    if (value != null && value.isNotEmpty) {
-                      if (!_isValidEmail(value)) {
-                        return localization.emailInvalid;
-                      }
-                    }
-                    return null;
-                  },
                 ),
-              ],
-              const SizedBox(height: 24),
-              if (config.buttons.doneButton.display == Display.hide)
-                ElevatedButton(
-                  onPressed: _isSubmitting ? null : _submit,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: _isSubmitting
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: Colors.white,
-                          ),
-                        )
-                      : Text(localization.submit),
-                ),
+              ),
             ],
-          ),
+            const SizedBox(height: 24),
+            FilledButton(
+              onPressed:
+                  _viewModel.isButtonDisabled || _viewModel.isButtonLoading
+                      ? null
+                      : _submit,
+              style: FilledButton.styleFrom(
+                minimumSize: const Size.fromHeight(48),
+              ),
+              child: _viewModel.isButtonLoading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(strings.save),
+            ),
+            if (_viewModel.error != null) ...[
+              const SizedBox(height: 12),
+              Text(
+                _viewModel.error!,
+                style: theme.textTheme.bodySmall
+                    ?.copyWith(color: theme.colorScheme.error),
+              ),
+            ],
+          ],
         ),
       ),
     );
   }
+}
 
-  bool _isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+/// A caption above a text field.
+///
+/// Material's own `InputDecoration.labelText` floats inside the outline, which
+/// does not match the iOS layout where the caption sits above the field and
+/// stays put. Rolling it keeps the two SDKs visually aligned for a host that
+/// ships both.
+class _LabelledField extends StatelessWidget {
+  final String label;
+  final Widget child;
+
+  const _LabelledField({required this.label, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: theme.textTheme.labelMedium
+              ?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        ),
+        const SizedBox(height: 6),
+        child,
+      ],
+    );
   }
 }
